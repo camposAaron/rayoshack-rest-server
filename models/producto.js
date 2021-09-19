@@ -40,7 +40,7 @@ const ProductSchema = Schema({
     promocion : {
         type : Schema.Types.ObjectId,
         ref : 'Category',
-        required : true
+        required : false
     },  
 });
 

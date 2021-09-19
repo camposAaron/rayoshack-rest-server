@@ -10,7 +10,8 @@ const CategorySchema = Schema({
         type : Boolean,
         default : true,
         required : true
-    }
+    },
+
 });
 
 CategorySchema.methods.toJSON = function() {
@@ -19,4 +20,4 @@ CategorySchema.methods.toJSON = function() {
 }
 
 
-module.exports = model("Category", CategorySchema);
+module.exports = model("Categoria", CategorySchema);
