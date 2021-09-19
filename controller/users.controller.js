@@ -50,6 +50,9 @@ const postUsers = async (req, res) => {
     const salt = bcrypt.genSaltSync();
     user.password = bcrypt.hashSync(password, salt);
 
+    //crear carrito
+    
+
     //Guardar en la base de datos
     await user.save();
 

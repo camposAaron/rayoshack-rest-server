@@ -18,7 +18,7 @@ const DireccionSchema = Schema({
         type : Boolean,
         default : true,
         required : true
-    },
+    }
 });
 
 DireccionSchema.methods.toJSON = function() {

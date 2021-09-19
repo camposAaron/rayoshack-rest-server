@@ -9,6 +9,11 @@ const VentaSchema = Schema({
         ref : 'Usuario',
         required : true
     },
+    carrito : [{
+        type : Schema.Types.ObjectId,
+        ref  : 'Carrito',
+        required : [true, 'debes tener al menos un articulo']
+    }],
     direccion : {
         type : Schema.Types.ObjectId,
         ref : 'Direccion',

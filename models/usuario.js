@@ -35,11 +35,6 @@ const UserSchema = new Schema({
         type :  Schema.Types.ObjectId,
         ref : 'Direccion',
         required : false
-    },
-    carrito : {
-        type : Schema.Types.ObjectId,
-        ref : 'Carrito',
-        required : true
     }
 });
 

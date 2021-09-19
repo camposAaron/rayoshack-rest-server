@@ -1,5 +1,5 @@
 const { response, request } = require('express');
-const User = require('../models/usuario');
+const Usuario = require('../models/usuario');
 
 const bcriptjs = require('bcryptjs');
 const generateJWT = require('../helpers/generate-jwt');
@@ -14,7 +14,7 @@ const login = async (req, res = response) => {
     try {
 
         //verificar si el email existe
-        const usuario = await User.findOne({ email });
+        const usuario = await Usuario.findOne({ email });
 
         if (!usuario) {
             return res.status(400).json({
@@ -62,7 +62,7 @@ const googleSignin = async (req, res = response) => {
     try {
         const { name, email, img } = await googleVerify(id_token);
 
-        let usuario = await User.findOne({email});
+        let usuario = await Usuario.findOne({email});
 
         if(!usuario){
             //crear usuario
@@ -74,7 +74,7 @@ const googleSignin = async (req, res = response) => {
                 google : true
             };
 
-            usuario = new User(data);
+            usuario = new Usuario(data);
             await usuario.save();
         }
 
