@@ -10,11 +10,6 @@ const CategorySchema = Schema({
         type : Boolean,
         default : true,
         required : true
-    },
-    user : {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required  : true
     }
 });
 
