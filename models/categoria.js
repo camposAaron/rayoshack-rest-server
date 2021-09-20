@@ -1,12 +1,12 @@
 const { Schema, model } = require('mongoose');
 
 const CategorySchema = Schema({
-    name : {
+    nombre : {
         type : String,
         required : [true, 'El nombre de la categoria es obligatorio'],
         unique: true
     },
-    state : {
+    estado : {
         type : Boolean,
         default : true,
         required : true
@@ -15,8 +15,8 @@ const CategorySchema = Schema({
 });
 
 CategorySchema.methods.toJSON = function() {
-    const { __v, state , ...categories } = this.toObject();
-    return categories;  
+    const { __v, estado , ...data } = this.toObject();
+    return data;  
 }
 
 

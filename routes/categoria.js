@@ -7,9 +7,7 @@ const {
     isAdminRole
 } = require('../middlewares/index');
 
-const { existsCategoryId } = require('../helpers/db-validator');
-
-
+const { existsCategoryId, } = require('../helpers');
 const {
     getCategories,
     getCategory,
@@ -20,7 +18,7 @@ const {
 
 const router = Router();
 /*
-    {{URL}}/api/category
+    {{URL}}/api/categorias
 */
 
 // Obtener todas las categorias - publico
@@ -33,19 +31,19 @@ router.get('/:id', [
     validarCampos
 ], getCategory);
 
-// crear categoria - private - cualquier persona con token valido
+// crear categoria - private -solo administrador con token valido
 router.post('/', [
     validarJWT,
-    check('name', 'El nombre es obligatorio').not().isEmpty(),
+    isAdminRole,
+    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
     validarCampos
 ], createCategory);
 
-// Actualizar una categoria - private -cualquiera con token valido
+// Actualizar una categoria - private -admin con token valido
 router.put('/:id', [
     validarJWT,
     isAdminRole,
-    check('name').not().isEmpty(),
-    check('state').isBoolean(),
+    check('nombre').not().isEmpty(),
     check('id', 'El id no es valido').isMongoId(),
     check('id').custom(existsCategoryId),
     validarCampos

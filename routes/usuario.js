@@ -15,8 +15,7 @@ const { getUsers,
        postUsers, 
        deleteUsers, 
               } = require('../controller/users.controller');
-const direccion = require('../models/direccion');
-    
+
 const router = Router();
 
 router.get('/', getUsers);
@@ -45,8 +44,6 @@ router.delete('/:id',[
     check('id').custom( existsId ),
     validarCampos
 ], deleteUsers);
-
-
 
 module.exports = router;
 

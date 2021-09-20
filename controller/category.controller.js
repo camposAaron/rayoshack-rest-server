@@ -1,6 +1,6 @@
 const { response, request } = require("express");
 const {
-    Category
+    Categoria
 } = require('../models/index');
 
 
@@ -8,11 +8,11 @@ const {
 const getCategories = async(req = request, res = response) => {
     
     const { limite = 5, desde } = req.query;
-    const query = { state : true };
+    const query = { estado : true };
   
     const [total, categories] = await Promise.all([
-        Category.countDocuments(query),
-        Category.find(query)
+        Categoria.countDocuments(query),
+        Categoria.find(query)
         .populate('user','name')
         .skip(Number(desde))
         .limit(Number(limite))
@@ -28,7 +28,7 @@ const getCategories = async(req = request, res = response) => {
 const getCategory = async(req = request, res = response) =>{
     
     const { id }=  req.params;
-    const category = await Category.findById({_id : id}).populate('user', 'name');
+    const category = await Categoria.findById({_id : id});
 
     res.json({
         category
@@ -38,24 +38,23 @@ const getCategory = async(req = request, res = response) =>{
 
 const createCategory = async(req = request, res = response) =>{
    
-    const  name = req.body.name.toUpperCase();
+    const  nombre = req.body.nombre.toUpperCase();
 
-    const categoryDB = await Category.findOne({ name });
+    const categoryDB = await Categoria.findOne({ nombre });
     
 
     if(categoryDB){
         return res.status(400).json({
-            msg :  `La categoria ${ categoryDB.name } ya esta registrada!`
+            msg :  `La categoria ${ categoryDB.nombre } ya esta registrada!`
         });
     }
 
     //generar la data a guardar
     const data = {
-        name,
-        user : req.user._id
+        nombre
     }
 
-    const category = new Category(data);
+    const category = new Categoria(data);
 
     //guardar en DB
     await category.save();
@@ -68,15 +67,11 @@ const createCategory = async(req = request, res = response) =>{
 const updateCategory = async(req = request, res = response) =>{
     
     const { id }=  req.params;
-    let { state, name} = req.body
+    let { estado, nombre} = req.body
     
-    //id usuario que modifico la categoria
-    const user = req.user._id; 
+    nombre = nombre.toUpperCase();
 
-    name = name.toUpperCase();
-
-
-    const category = await Category.findByIdAndUpdate(id, {state, name, user}, {new : true});
+    const category = await Categoria.findByIdAndUpdate(id, {estado, nombre}, {new : true});
 
     res.json(category);
 }
@@ -85,7 +80,7 @@ const updateCategory = async(req = request, res = response) =>{
 const deleteCategory = async(req = request, res = response) =>{
     const { id } =  req.params;
 
-    const category = await Category.findByIdAndUpdate(id, {state : false}, {new : true});
+    const category = await Categoria.findByIdAndUpdate(id, {estado : false}, {new : true});
 
     res.json(category);
 
