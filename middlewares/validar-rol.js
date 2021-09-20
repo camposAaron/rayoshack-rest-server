@@ -21,16 +21,16 @@ const isAdminRole = (req, res = response, next) => {
  *have role es una funcion que evalua multiples roles  
  * */
 
-const haveRole = ( ...rols ) => {
+const haveRole = ( ...roles ) => {
     return (req, res, next) => {
     
         if( !req.user ){
            return res.status(500).json({msg : 'no se puede verficar un usuario sin haber generado un token'});
         }
  
-        if( !rols.includes( req.user.role ) ){
+        if( !roles.includes( req.user.rol ) ){
            return  res.status(401).json({
-                msg : `El servicio require uno de los siguientes roles: ${ rols }`
+                msg : `El servicio require uno de los siguientes roles: ${ roles }`
             });
         }
     

@@ -3,8 +3,7 @@ const { Schema, model } = require('mongoose');
 const DireccionSchema = Schema({
     departamento : {
         type : String,
-        required : true, //un enum !!!
-        unique: true
+        required : true
     },
     direccion : {
         type : String,

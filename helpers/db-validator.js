@@ -1,6 +1,11 @@
 
 const { Usuario, Categoria, Producto, Rol } = require('../models/index');
 
+/**
+ * departamentos validos para envio
+ */
+
+
 //verificar si el rol es valido
 const isRoleValid = async (rol = '') => {
     const existRole = await Rol.findOne({ rol });
@@ -11,7 +16,7 @@ const isRoleValid = async (rol = '') => {
 }
 
 //Verificar si el correo existe
-const existsEmail = async ( email = '') => {
+const existsEmail = async (email = '') => {
     const emailfound = await Usuario.findOne({ email });
     if (emailfound) {
         throw new Error(`El correo ya esta registrado`);
@@ -19,30 +24,30 @@ const existsEmail = async ( email = '') => {
 }
 
 //Verificar si el id del usuario existe
-const existsId = async ( id ) => {
-    const idFound = await Usuario.findById( id );
+const existsId = async (id) => {
+    const idFound = await Usuario.findById(id);
     if (!idFound) {
         throw new Error(`El id ${id} no existe`);
     }
 }
 
-const existsCategoryId = async( id ) => {
-    const idfound = await Categoria.findById( id );
-    
-    if(!idfound){
+const existsCategoryId = async (id) => {
+    const idfound = await Categoria.findById(id);
+
+    if (!idfound) {
         throw new Error(`El id: ${id} no existe`);
     }
-    
+
 }
 
-const existsProduct = async(id) => {
+const existsProduct = async (id) => {
     const idFound = await Producto.findById(id);
 
-    if(!idFound.state){
+    if (!idFound.state) {
         throw new Error(`id no encontrado -state: false`);
     }
-    
-    if(!idFound){
+
+    if (!idFound) {
         throw new Error(`el id: ${id} no existe`);
     }
 }
@@ -54,12 +59,20 @@ const existsProduct = async(id) => {
  */
 const validateCollections = (collection = '', collections = []) => {
 
-   const include = collections.includes(collection);
-   if(!include){
-       throw new Error(`La coleccion ${collection} no es permitida`);
-   }
+    const include = collections.includes(collection);
+    if (!include) {
+        throw new Error(`La coleccion ${collection} no es permitida`);
+    }
 
-   return true
+    return true
+}
+
+const validateDepartment = (department = '', validDepartments = []) => {
+    if(!validDepartments.includes(department)){
+        throw new Error(`No hay envio al departamento de: ${department}`);
+    }
+
+    return true
 }
 
 
@@ -69,5 +82,6 @@ module.exports = {
     existsId,
     existsCategoryId,
     existsProduct,
-    validateCollections
+    validateCollections,
+    validateDepartment
 }

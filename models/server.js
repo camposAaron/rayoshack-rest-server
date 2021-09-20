@@ -12,6 +12,7 @@ class Server{
             auth :       '/api/auth',
             // find :       '/api/find',
             users :      '/api/usuarios',
+            direcciones : '/api/direcciones',
             // products:     '/api/product',
             categorias : '/api/categorias',
             // uploads :    '/api/uploads'
@@ -54,6 +55,8 @@ class Server{
         // this.app.use(this.path.products, require('../routes/product'));
         this.app.use(this.path.categorias, require('../routes/categoria'));
         // this.app.use(this.path.uploads, require('../routes/upload'));
+        this.app.use(this.path.direcciones, require('../routes/direccion'));
+    
     }
 
     listen(){
