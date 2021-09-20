@@ -1,5 +1,5 @@
 const Categoria = require('./categoria');
-const Rol = require('./role');
+const Rol = require('./rol');
 const Venta = require('./venta');
 const Producto = require('./producto');
 const Usuario = require('./usuario');

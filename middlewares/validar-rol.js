@@ -1,5 +1,7 @@
 const { response } = require("express");
 
+
+//Evalua si el rol del usuario es administrador
 const isAdminRole = (req, res = response, next) => {
    
     if( !req.user ){
@@ -7,14 +9,17 @@ const isAdminRole = (req, res = response, next) => {
     }
 
     //verificando rol de usuario autenticado
-    const { role, name } = req.user;
-    if( role !== 'ADMIN_ROLE'){
-        res.status(401).json({msg : `${name} no es administrador`});
+    const { rol, nombre } = req.user;
+    if( rol !== 'ADMIN_ROLE'){
+        res.status(401).json({msg : `${nombre} no es administrador`});
     }
 
     next();
 } 
 
+/**
+ *have role es una funcion que evalua multiples roles  
+ * */
 
 const haveRole = ( ...rols ) => {
     return (req, res, next) => {

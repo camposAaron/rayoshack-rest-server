@@ -1,16 +1,18 @@
 const bcrypt = require('bcryptjs');
 const { response, request } = require('express');
-const User = require('../models/usuario');
+const Usuario = require('../models/usuario');
 
 
 const getUsers = async(req = request, res = response) => {
    
-    const { limite = 5, desde } = req.query;
-    const query = { state : true};
+    const { limite = 5, desde} = req.query;
+    const query = { estado : true};
 
-    const [total, users] = await Promise.all([
-        User.countDocuments(query),
-        User.find(query)    
+    console.log(limite, desde);
+
+    const [total, usuarios] = await Promise.all([
+        Usuario.countDocuments(query),
+        Usuario.find(query)    
         .skip(Number(desde))
         .limit(Number(limite))
     ]);
@@ -18,7 +20,7 @@ const getUsers = async(req = request, res = response) => {
   
     res.json({
         total,
-        users
+        usuarios
     });
 }
 
@@ -35,23 +37,21 @@ const putUsers = async (req, res) => {
         // rest.email = email;
     }
 
-    const user = await User.findByIdAndUpdate(id, rest, {new : true});
+    const user = await Usuario.findByIdAndUpdate(id, rest, {new : true});
 
     res.json(user);
 }
 
 const postUsers = async (req, res) => {
 
-    const { name, password, email, role } = req.body;
-    const user = new User({ name, password, email, role });
+    const { nombre, password, email, rol } = req.body;
+    const user = new Usuario({ nombre, password, email, rol });
 
 
     //Encriptar la contraseña
     const salt = bcrypt.genSaltSync();
     user.password = bcrypt.hashSync(password, salt);
 
-    //crear carrito
-    
 
     //Guardar en la base de datos
     await user.save();
@@ -63,7 +63,7 @@ const deleteUsers = async(req, res) => {
     
     const {id} = req.params;
 
-    const user = await User.findByIdAndUpdate(id, {state : false});
+    const user = await Usuario.findByIdAndUpdate(id, {estado : false});
     const userAutenticated = req.user;
     res.json({user, userAutenticated});
 }

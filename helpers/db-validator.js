@@ -1,18 +1,18 @@
-const Rol = require('../models/role');
-const { User, Category, Product } = require('../models/index');
+
+const { Usuario, Categoria, Producto, Rol } = require('../models/index');
 
 //verificar si el rol es valido
-const isRoleValid = async (role = '') => {
-    const existRole = await Rol.findOne({ role });
+const isRoleValid = async (rol = '') => {
+    const existRole = await Rol.findOne({ rol });
     console.log(existRole);
     if (!existRole) {
-        throw new Error(`El rol ${role} no existe en la BD`);
+        throw new Error(`El rol ${rol} no existe en la BD`);
     }
 }
 
 //Verificar si el correo existe
 const existsEmail = async ( email = '') => {
-    const emailfound = await User.findOne({ email });
+    const emailfound = await Usuario.findOne({ email });
     if (emailfound) {
         throw new Error(`El correo ya esta registrado`);
     }
@@ -20,14 +20,14 @@ const existsEmail = async ( email = '') => {
 
 //Verificar si el id del usuario existe
 const existsId = async ( id ) => {
-    const idFound = await User.findById( id );
+    const idFound = await Usuario.findById( id );
     if (!idFound) {
         throw new Error(`El id ${id} no existe`);
     }
 }
 
 const existsCategoryId = async( id ) => {
-    const idfound = await Category.findById( id );
+    const idfound = await Categoria.findById( id );
     
     if(!idfound){
         throw new Error(`El id: ${id} no existe`);
@@ -36,7 +36,7 @@ const existsCategoryId = async( id ) => {
 }
 
 const existsProduct = async(id) => {
-    const idFound = await Product.findById(id);
+    const idFound = await Producto.findById(id);
 
     if(!idFound.state){
         throw new Error(`id no encontrado -state: false`);

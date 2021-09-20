@@ -23,7 +23,7 @@ const login = async (req, res = response) => {
         }
 
         //Si el usuario esta activo
-        if (!usuario.state) {
+        if (!usuario.estado) {
             return res.status(400).json({
                 msg: 'Usuario / password no son correctos -estado = false'
             })

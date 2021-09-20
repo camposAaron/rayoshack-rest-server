@@ -15,6 +15,7 @@ const { getUsers,
        postUsers, 
        deleteUsers, 
               } = require('../controller/users.controller');
+const direccion = require('../models/direccion');
     
 const router = Router();
 
@@ -27,19 +28,19 @@ router.put('/:id',[
 ], putUsers);
 
 router.post('/', [
-    check('name', 'El nombre es obligatorio').not().isEmpty(),
+    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
     check('password', 'La contraseña debe contener al menos 5 caracteres').isLength({ min: 6}),
     check('email', 'El correo no es valido').isEmail(),
     check('email').custom(existsEmail),
-    // check('role', 'No es un rol valido').isIn(['ADMIN_ROLE','USER_ROLE']),
-    check('role').custom(isRoleValid),
+    // // check('role', 'No es un rol valido').isIn(['ADMIN_ROLE','USER_ROLE']),
+    check('rol').custom(isRoleValid),
     validarCampos
 ], postUsers);
 
 router.delete('/:id',[
     validarJWT,
-//    isAdminRole,
-    haveRole('ADMIN_ROLE', 'SALES_ROLE', 'OTHER_ROLE'),
+    isAdminRole,
+    // haveRole('ADMIN_ROLE', 'SALES_ROLE', 'OTHER_ROLE'),
     check('id', 'El id no es valido').isMongoId(),
     check('id').custom( existsId ),
     validarCampos
