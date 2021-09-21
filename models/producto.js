@@ -7,7 +7,8 @@ const ProductSchema = Schema({
     },
     modelo : {
         type: String,
-        required: true
+        required : true,
+        unique : true
     },
     precio : {
         type : Number,
@@ -19,29 +20,25 @@ const ProductSchema = Schema({
     portada : {
         type : String,
     },
-    descripcion : {
-        type : String,
-    },
     contenido : {
         type : String
+    },
+    categoria : {
+        type : Schema.Types.ObjectId,
+        ref : 'Categoria',
+        required : true
+    },
+    stock  : { type : Boolean, default : false },
+    promocion : {
+        type : Schema.Types.ObjectId,
+        ref : 'Promocion',
+        required : false
     },
     estado : {
         type : Boolean,
         required : true,
         default : true
-    },
-    categoria : {
-        type : Schema.Types.ObjectId,
-        ref : 'Category',
-        required : true
-    },
-    descripcion : { type : String },
-    stock  : { type : Boolean, default : true },
-    promocion : {
-        type : Schema.Types.ObjectId,
-        ref : 'Category',
-        required : false
-    },  
+    }
 });
 
 ProductSchema.methods.toJSON = function(){

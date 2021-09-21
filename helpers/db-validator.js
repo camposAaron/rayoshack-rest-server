@@ -43,7 +43,7 @@ const existsCategoryId = async (id) => {
 const existsProduct = async (id) => {
     const idFound = await Producto.findById(id);
 
-    if (!idFound.state) {
+    if (!idFound.estado) {
         throw new Error(`id no encontrado -state: false`);
     }
 

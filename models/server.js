@@ -13,7 +13,7 @@ class Server{
             // find :       '/api/find',
             users :      '/api/usuarios',
             direcciones : '/api/direcciones',
-            // products:     '/api/product',
+            productos:     '/api/productos',
             categorias : '/api/categorias',
             // uploads :    '/api/uploads'
         }
@@ -52,7 +52,7 @@ class Server{
         this.app.use(this.path.auth, require('../routes/auth'));
         // this.app.use(this.path.find, require('../routes/find'));
         this.app.use(this.path.users, require('../routes/usuario'));
-        // this.app.use(this.path.products, require('../routes/product'));
+        this.app.use(this.path.productos, require('../routes/producto'));
         this.app.use(this.path.categorias, require('../routes/categoria'));
         // this.app.use(this.path.uploads, require('../routes/upload'));
         this.app.use(this.path.direcciones, require('../routes/direccion'));

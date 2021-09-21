@@ -1,82 +1,79 @@
 const { response } = require('express');
-const {  } = require('../middlewares/index');
-const { Product } = require('../models/index');
+const { Producto, Carrito } = require('../models/index');
 
-const createProduct = async(req, res = response) => {    
+const createProduct = async (req, res = response) => {
 
-    const { name, price, category, description, available } = req.body;
+    const { modelo, ...restFields } = req.body;
 
-    const productoName =  await Product.findOne({name});
+    console.log(restFields);
 
-    if(productoName){
-       return res.status(400).json({
-            msg : `El producto ${productoName.name} ya esta registrado!`
+    const productoName = await Producto.findOne({ modelo });
+
+    if (productoName) {
+        return res.status(400).json({
+            msg: `El producto ${productoName.name} ya esta registrado!`
         });
     }
 
-    const data = {
-        name, 
-        user : req.user._id,
-        price,
-        category,
-        description,
-        available
-    }
+    restFields.modelo = modelo;
 
-    const product = new Product(data);
+    const product = new Producto(restFields);
 
     await product.save()
 
     res.status(201).json(product);
-    
+
 }
 
 
-const getProducts = async(req, res = response) => {
-    
-    const {limite = 5, desde} = req.query;
-    const query =  {state: true, available : true};
+const getProducts = async (req, res = response) => {
 
-   
+    const { limite = 5, desde, stock = true } = req.query;
+    //la consulta por defecto devolvera los productos con stock disponible
+    const query = { estado: true, stock };
 
-    const [total, product]  = await Promise.all([
-       Product.countDocuments(query),
-       Product.find(query).
-       populate('user', 'name').
-       populate('category', 'name').
-       skip(Number(desde)).
-       limit(Number(limite))
+
+    const [total, productos] = await Promise.all([
+        Producto.countDocuments(query),
+        Producto.find(query).
+            populate('categoria', 'nombre').
+            populate('promocion', 'descuento').
+            skip(Number(desde)).
+            limit(Number(limite))
     ]);
 
     res.json({
         total,
-        product
+        productos
     });
 }
 
-const getProductById = async(req, res = response) => {
+const getProductById = async (req, res = response) => {
     const { id } = req.params;
 
-    const product =  await Product.findById(id).populate('user','name').populate('category','name');
+    const product = await Producto.findById(id)
+        .populate('categoria', 'nombre')
+        .populate('promocion', 'descuento')
 
     res.json(product);
 }
 
-const deleteProduct = async(req, res =response) => {
+const deleteProduct = async (req, res = response) => {
     const { id } = req.params;
-    
-    const product =  await Product.findByIdAndUpdate( id, {state : false}, {new : true});
-    
+
+    const product = await Producto.findByIdAndUpdate(id, { estado: false }, { new: true });
+
     res.json(product);
+
 }
 
-const updateProduct = async(req, res = response) => {
+const updateProduct = async (req, res = response) => {
     const { id } = req.params;
-    const { _id, user, ...rest} = req.body;
+    const { _id, estado, ...rest } = req.body;
+    
+    console.log(rest);
 
-    user = req.user._id;
-
-    const product = await Product.findByIdAndUpdate( id, {rest, user}, {new : true});
+    const product =  await Producto.findByIdAndUpdate(id, rest, { new: true });
 
     res.json(product);
 
