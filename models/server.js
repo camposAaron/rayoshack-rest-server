@@ -10,11 +10,12 @@ class Server{
         this.port = process.env.PORT;
         this.path = {
             auth :       '/api/auth',
-            // find :       '/api/find',
-            users :      '/api/usuarios',
-            direcciones : '/api/direcciones',
-            productos:     '/api/productos',
             categorias : '/api/categorias',
+            direcciones : '/api/direcciones',
+            // find :       '/api/find',
+            promociones : '/api/promociones',
+            productos:     '/api/productos',
+            users :      '/api/usuarios'
             // uploads :    '/api/uploads'
         }
         
@@ -50,12 +51,13 @@ class Server{
 
     routes(){
         this.app.use(this.path.auth, require('../routes/auth'));
-        // this.app.use(this.path.find, require('../routes/find'));
-        this.app.use(this.path.users, require('../routes/usuario'));
-        this.app.use(this.path.productos, require('../routes/producto'));
         this.app.use(this.path.categorias, require('../routes/categoria'));
-        // this.app.use(this.path.uploads, require('../routes/upload'));
         this.app.use(this.path.direcciones, require('../routes/direccion'));
+        // this.app.use(this.path.find, require('../routes/find'));
+        this.app.use(this.path.promociones, require('../routes/promocion'));
+        this.app.use(this.path.productos, require('../routes/producto'));
+        // this.app.use(this.path.uploads, require('../routes/upload'));
+        this.app.use(this.path.users, require('../routes/usuario'));
     
     }
 

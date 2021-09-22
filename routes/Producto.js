@@ -21,14 +21,14 @@ const router = Router();
 
 router.post('/', [
     validarJWT,
-    isAdminRole,
-    check('marca').not().isEmpty(),
+     check('marca').not().isEmpty(),
     check('modelo').not().isEmpty(),
     check('categoria','no es un id de mongo').isMongoId(),
     check('categoria').custom(existsCategoryId),
     validarCampos
 
-], createProduct);
+], createProduct);  isAdminRole,
+ 
 
 router.get('/', getProducts)
 

@@ -71,8 +71,6 @@ const updateProduct = async (req, res = response) => {
     const { id } = req.params;
     const { _id, estado, ...rest } = req.body;
     
-    console.log(rest);
-
     const product =  await Producto.findByIdAndUpdate(id, rest, { new: true });
 
     res.json(product);

@@ -8,10 +8,19 @@ const PromocionSchema = Schema({
     banner : String,
     descuento : Number,
     fechaInicio : {
-        type : Number,
+        type : Date,
+        required : true,
+        default : new Date()
+    },
+    fechaFinal : {
+        type : Date,
         required : true
     },
-    fechaFinal : Number,
+    estado : {
+        type : Boolean,
+        required : true,
+        default : true
+    }
 });
 
 PromocionSchema.methods.toJSON = function(){

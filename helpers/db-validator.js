@@ -1,5 +1,5 @@
 
-const { Usuario, Categoria, Producto, Rol } = require('../models/index');
+const { Usuario, Categoria, Producto, Rol, Promocion } = require('../models/index');
 
 /**
  * departamentos validos para envio
@@ -52,6 +52,18 @@ const existsProduct = async (id) => {
     }
 }
 
+const existsPromocion = async(id) => {
+    const idFound = await Promocion.findById(id);
+
+    if (!idFound.estado) {
+        throw new Error(`id no encontrado -state: false`);
+    }
+
+    if (!idFound) {
+        throw new Error(`el id: ${id} no existe`);
+    }
+}
+
 /**
  * validar colecciones
  * @param {la coleccion de la imagen } collection 
@@ -82,6 +94,7 @@ module.exports = {
     existsId,
     existsCategoryId,
     existsProduct,
+    existsPromocion,
     validateCollections,
     validateDepartment
 }
