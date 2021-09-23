@@ -6,6 +6,7 @@ const Usuario = require('./usuario');
 const Direccion = require('./direccion');
 const Carrito =  require('./carrito');
 const Promocion = require('./promocion');
+const Inventario = require('./inventario');``
 
 module.exports = {
     Categoria,
@@ -15,5 +16,6 @@ module.exports = {
     Direccion,
     Carrito,
     Venta,
-    Promocion
+    Promocion,
+    Inventario
 }

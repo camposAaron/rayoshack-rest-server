@@ -1,5 +1,5 @@
 
-const { Usuario, Categoria, Producto, Rol, Promocion } = require('../models/index');
+const { Usuario, Categoria, Producto, Rol, Promocion, Inventario } = require('../models/index');
 
 /**
  * departamentos validos para envio
@@ -64,6 +64,39 @@ const existsPromocion = async(id) => {
     }
 }
 
+//existe producto en inventario
+const existsInInventory = async(producto) => {
+    const founds = await Inventario.find({producto});
+    
+    console.log(founds.length);
+    console.log(founds.length < 1);
+
+    if( founds.length < 1){
+        return true
+    }
+    
+    if (founds.length >=1 ) {
+        throw new Error(`el producto con id: ${producto}, ya esta registrado en inventario`);
+    }
+
+    if(!founds[0].estado){
+        throw new Error(`el id no es valido`);
+    }
+
+}
+
+const existsIdInvetory = async(id) => {
+    const idFound = await Inventario.findById(id);
+
+    if (!idFound.estado) {
+        throw new Error(`id no encontrado -state: false`);
+    }
+
+    if (!idFound) {
+        throw new Error(`el id: ${id} no existe`);
+    }
+}
+
 /**
  * validar colecciones
  * @param {la coleccion de la imagen } collection 
@@ -95,6 +128,8 @@ module.exports = {
     existsCategoryId,
     existsProduct,
     existsPromocion,
+    existsInInventory,
+    existsIdInvetory,
     validateCollections,
     validateDepartment
 }

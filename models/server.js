@@ -12,6 +12,7 @@ class Server{
             auth :       '/api/auth',
             categorias : '/api/categorias',
             direcciones : '/api/direcciones',
+            inventario : '/api/inventario',
             // find :       '/api/find',
             promociones : '/api/promociones',
             productos:     '/api/productos',
@@ -54,6 +55,7 @@ class Server{
         this.app.use(this.path.categorias, require('../routes/categoria'));
         this.app.use(this.path.direcciones, require('../routes/direccion'));
         // this.app.use(this.path.find, require('../routes/find'));
+        this.app.use(this.path.inventario, require('../routes/inventario'));
         this.app.use(this.path.promociones, require('../routes/promocion'));
         this.app.use(this.path.productos, require('../routes/producto'));
         // this.app.use(this.path.uploads, require('../routes/upload'));

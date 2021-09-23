@@ -27,7 +27,7 @@ router.post('/', [
     check('categoria').custom(existsCategoryId),
     validarCampos
 
-], createProduct);  isAdminRole,
+], createProduct); 
  
 
 router.get('/', getProducts)
