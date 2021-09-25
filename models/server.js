@@ -57,7 +57,7 @@ class Server{
         // this.app.use(this.path.find, require('../routes/find'));
         this.app.use(this.path.inventario, require('../routes/inventario'));
         this.app.use(this.path.promociones, require('../routes/promocion'));
-        this.app.use(this.path.productos, require('../routes/producto'));
+        this.app.use(this.path.productos, require('../routes/Producto'));
         // this.app.use(this.path.uploads, require('../routes/upload'));
         this.app.use(this.path.users, require('../routes/usuario'));
     
