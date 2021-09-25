@@ -21,7 +21,7 @@ const CarritoSchema = Schema({
     Subtotal : {
         type : Number
     },
-    state : {
+    estado : {
         type : Boolean,
         default : true,
         required : true
@@ -29,7 +29,7 @@ const CarritoSchema = Schema({
 });
 
 CarritoSchema.methods.toJSON = function() {
-    const { __v, state , ...data } = this.toObject();
+    const { __v, estado , ...data } = this.toObject();
     return data;  
 }
 
