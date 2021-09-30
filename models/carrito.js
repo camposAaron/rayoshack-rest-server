@@ -18,14 +18,14 @@ const CarritoSchema = Schema({
     precio : {
         type : Number,
     },
-    Subtotal : {
+    total : {
         type : Number
     },
     state : {
         type : Boolean,
         default : true,
         required : true
-    },
+    }
 });
 
 CarritoSchema.methods.toJSON = function() {
