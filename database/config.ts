@@ -18,6 +18,4 @@ const dbConnection = async()=>{
     }
 }
 
-module.exports = {
-    dbConnection
-}
+export default dbConnection;

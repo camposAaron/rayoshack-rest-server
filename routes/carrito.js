@@ -16,6 +16,8 @@ const {
 
 const router = Router();
 
-router.post('/', postDetalleCarrito)
+router.post('/',
+    [haveRole('USER_ROLE')],
+    postDetalleCarrito)
 
 module.exports = router;
