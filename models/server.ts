@@ -18,15 +18,14 @@ class myServer {
 
     private apiPaths = {
         auth: '/api/auth',
-        categorias: '/api/categorias',
+        categorias: '/api/categoria',
         carrito: '/api/carrito',
-        direcciones: '/api/direcciones',
-        inventario: '/api/inventario',
+        direcciones: '/api/direccion',
         // find :       '/api/find',
-        promociones: '/api/promociones',
-        productos: '/api/productos',
-        users: '/api/usuarios'
-        // uploads :    '/api/uploads'
+        promociones: '/api/promocion',
+        productos: '/api/producto',
+        users: '/api/usuario'
+        // uploads :    '/api/upload'
     };
 
     constructor() {

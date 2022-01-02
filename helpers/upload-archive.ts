@@ -1,7 +1,8 @@
-const { v4: uuidv4 } = require('uuid');
-const path = require('path');
+import {  v4 as uuidv4 } from 'uuid';
 
-const uploadArchive = (files, validExtensions = ['jpg', 'png', 'jpeg','gif'], folder = '') => {
+import path from 'path';
+
+export const uploadArchive = (files:any, validExtensions = ['jpg', 'png', 'jpeg','gif'], folder = '') => {
   return new Promise((resolve, reject) => {
 
     /*Validar extension */
@@ -17,7 +18,7 @@ const uploadArchive = (files, validExtensions = ['jpg', 'png', 'jpeg','gif'], fo
 
     const rutaDeCarga = path.join(__dirname , '../uploads/', folder , temporalName);
 
-    archivo.mv(rutaDeCarga, (err) => {
+    archivo.mv(rutaDeCarga, (err: Error) => {
         if (err) {
            reject(err);
         }
@@ -26,8 +27,4 @@ const uploadArchive = (files, validExtensions = ['jpg', 'png', 'jpeg','gif'], fo
     });
 
   });    
-}
-
-module.exports = {
-    uploadArchive
 }

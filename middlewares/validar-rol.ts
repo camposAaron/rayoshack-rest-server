@@ -1,8 +1,7 @@
-const { response } = require("express");
-
+import { NextFunction, Request, Response } from "express";
 
 //Evalua si el rol del usuario es administrador
-const isAdminRole = (req, res = response, next) => {
+export const isAdminRole = (req: any, res: Response, next:NextFunction) => {
    
     if( !req.user ){
         res.status(500).json({msg : 'no se puede verficar un usuario sin haber generado un token'});
@@ -21,8 +20,8 @@ const isAdminRole = (req, res = response, next) => {
  *have role es una funcion que evalua multiples roles  
  * */
 
-const haveRole = ( ...roles ) => {
-    return (req, res, next) => {
+export const haveRole = ( ...roles: [String] ) => {
+    return (req:any, res:Response, next:NextFunction) => {
     
         if( !req.user ){
            return res.status(500).json({msg : 'no se puede verficar un usuario sin haber generado un token'});
@@ -36,10 +35,4 @@ const haveRole = ( ...roles ) => {
     
         next();
     }
-}
-
-
-module.exports = {
-    isAdminRole,
-    haveRole
 }

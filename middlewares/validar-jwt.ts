@@ -1,12 +1,14 @@
-const { request, response } = require('express');
+import { NextFunction, Request, Response } from "express";
 
-const JWT = require('jsonwebtoken');
-const User = require('../models/usuario');
+import  JWT, { Secret } from 'jsonwebtoken';
+import { Usuario } from "../models";
 
-const validarJWT = async (req = request, res = response, next) => {
+const privateKey:Secret = process.env.SECRETORPRIVATEKEY!;
+
+ const validarJWT = async (req: any, res:Response, next:NextFunction) => {
 
     const token = req.header('x-token');
-    
+
     if(!token){
          return res.status(401).json({
              msg : 'No hay token en la petición'
@@ -14,11 +16,12 @@ const validarJWT = async (req = request, res = response, next) => {
     }
 
      try{
-        const { uid } = JWT.verify(token, process.env.SECRETORPRIVATEKEY);
-        req.uid = uid;
+        
+        const data:any = JWT.verify(token, privateKey);
+        req.uid = data.uid;
 
         //leer el usuario que corresponde al uid
-        const user =  await User.findById( uid );
+        const user =  await Usuario.findById( data.uid );
 
         //comprobar si el usuario existe
         if(!user){
@@ -45,9 +48,5 @@ const validarJWT = async (req = request, res = response, next) => {
         });
 
     }
-
-
 }
-
-module.exports = {validarJWT};
-
+export default validarJWT;
