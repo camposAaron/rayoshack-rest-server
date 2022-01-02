@@ -1,6 +1,11 @@
-const { Schema, model } = require('mongoose');
+import {Schema, model } from 'mongoose';
 
-const CategorySchema = Schema({
+interface categoria {
+    nombre:String,
+    estado: Boolean
+}
+
+const CategorySchema = new Schema<categoria>({
     nombre : {
         type : String,
         required : [true, 'El nombre de la categoria es obligatorio'],
@@ -10,7 +15,7 @@ const CategorySchema = Schema({
         type : Boolean,
         default : true,
         required : true
-    },
+    }
 
 });
 
@@ -20,4 +25,4 @@ CategorySchema.methods.toJSON = function() {
 }
 
 
-module.exports = model("Categoria", CategorySchema);
+export default model("Categoria", CategorySchema);

@@ -1,6 +1,17 @@
-const { Schema, model } = require('mongoose');
+import {Schema, model, Types } from 'mongoose';
 
-const UserSchema = new Schema({
+export interface Usuario{
+        nombre : String;
+        email: String;
+        password: String;
+        img: String;
+        rol: String;
+        estado: Boolean;
+        google: Boolean;
+        direccion: String;
+}
+
+const UserSchema = new Schema<Usuario>({
     nombre: {
         type:  String,
         required: [true, 'El nombre es requerido']
@@ -12,7 +23,7 @@ const UserSchema = new Schema({
     },
     password : {
         type: String,
-        required: [true, 'A password is required'],
+        required: [true, 'La contraseña es requerida'],
     },
     img : {
         type: String,
@@ -44,4 +55,4 @@ UserSchema.methods.toJSON = function() {
     return user;  
 }
 
-module.exports = model('Usuario', UserSchema);
+export default model('Usuario', UserSchema);

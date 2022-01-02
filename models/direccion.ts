@@ -1,6 +1,13 @@
-const { Schema, model } = require('mongoose');
+import {Schema, model } from 'mongoose';
 
-const DireccionSchema = Schema({
+interface Direccion{
+    departamento: String;
+    direccion: String;
+    telefono: String;
+    estado: String;
+}
+
+const DireccionSchema = new Schema<Direccion>({
     departamento : {
         type : String,
         required : true
@@ -13,7 +20,7 @@ const DireccionSchema = Schema({
         type : String,
         required : true
     },
-    state : {
+    estado : {
         type : Boolean,
         default : true,
         required : true
@@ -21,8 +28,8 @@ const DireccionSchema = Schema({
 });
 
 DireccionSchema.methods.toJSON = function() {
-    const { __v, state , ...data } = this.toObject();
+    const { __v, estado , ...data } = this.toObject();
     return data;  
 }
 
-module.exports = model("Direccion", DireccionSchema);
+export default model("Direccion", DireccionSchema);

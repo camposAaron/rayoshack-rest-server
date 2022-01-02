@@ -44,6 +44,7 @@ class myServer {
         //Conectar a base de datos
         this.connectDB();
         //eventos de socket
+        this.sockets();
     }
     connectDB() {
         return __awaiter(this, void 0, void 0, function* () {

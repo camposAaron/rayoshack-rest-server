@@ -1,7 +1,18 @@
-const { Schema, model } = require('mongoose');
+import { Schema, model, Types } from 'mongoose';
 
-const VentaSchema = Schema({
-    NVenta : {
+interface Venta{
+    codigo : String;
+    cliente : Types.ObjectId;
+    productos : Types.DocumentArray<any>;
+    direccion : Types.ObjectId;
+    metodo : String;
+    subTotal : Number;
+    Total : Number;
+    estado : Boolean;
+}
+
+const VentaSchema = new Schema<Venta>({
+    codigo : {
         type : String
     },
     cliente : {
@@ -9,10 +20,13 @@ const VentaSchema = Schema({
         ref : 'Usuario',
         required : true
     },
-    carrito : [{
-        type : Schema.Types.ObjectId,
-        ref  : 'Carrito',
-        required : [true, 'debes tener al menos un articulo']
+    productos : [{
+       producto : {
+           type :  Types.ObjectId,
+           ref  : 'Producto'
+       },
+       cantidad : { type : Number, required: true },
+       precio : Number
     }],
     direccion : {
         type : Schema.Types.ObjectId,
@@ -33,7 +47,7 @@ const VentaSchema = Schema({
     Subtotal : {
         type : Number,
     },
-    state : {
+    estado : {
         type : Boolean,
         default : true,
         required : true
@@ -41,8 +55,8 @@ const VentaSchema = Schema({
 });
 
 VentaSchema.methods.toJSON = function() {
-    const { __v, state , ...data } = this.toObject();
+    const { __v,  estado, ...data } = this.toObject();
     return data;  
 }
 
-module.exports = model("Venta", VentaSchema);
+export default model("Venta", VentaSchema);

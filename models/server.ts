@@ -11,7 +11,7 @@ import socketIO from 'socket.io';
 class myServer {
     private app: Application;
     private port: String;
-    private server: Server;
+    private server: Server ;
     private  io: socketIO.Server;
    
 
@@ -45,6 +45,7 @@ class myServer {
         this.connectDB();
 
         //eventos de socket
+        this.sockets();
     }
 
     async connectDB() {
@@ -91,7 +92,6 @@ class myServer {
             console.log('Escuchando en el puerto: ', this.port);
         });
     }
-
 }
 
 export default myServer;
