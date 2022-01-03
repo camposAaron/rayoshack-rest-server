@@ -64,27 +64,27 @@ export const existsPromocion = async (id: String) => {
 
 
 
-// /**
-//  * validar colecciones
-//  * @param {la coleccion de la imagen } collection
-//  * @param {las colecciones permitidas} colecctions
-//  */
-// const validateCollections = (collection = '', collections: [String]) => {
+/**
+ * validar colecciones
+ * @param {la coleccion de la imagen } collection
+ * @param {las colecciones permitidas} colecctions
+ */
+export const validateCollections = (collection = '', collections: [String]) => {
 
-//     const include = collections.includes(collection);
-//     if (!include) {
-//         throw new Error(`La coleccion ${collection} no es permitida`);
-//     }
+    const include = collections.includes(collection);
+    if (!include) {
+        throw new Error(`La coleccion ${collection} no es permitida`);
+    }
 
-//     return true
-// }
+    return true
+}
 
-// //Validar departamento.
-// const validateDepartment = (department: String, validDepartments: String[]) => {
-//     if (!validDepartments.includes(department)) {
-//         throw new Error(`No hay envio al departamento de: ${department}`);
-//     }
+//Validar departamento.
+export const validateDepartment = (department: String, validDepartments: String[]) => {
+    if (!validDepartments.includes(department)) {
+        throw new Error(`No hay envio al departamento de: ${department}`);
+    }
 
-//     return true
-// }
+    return true
+}
 

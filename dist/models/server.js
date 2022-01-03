@@ -68,13 +68,13 @@ class myServer {
     routes() {
         this.app.use(this.apiPaths.auth, routes_1.userRouter);
         this.app.use(this.apiPaths.categorias, routes_1.categoriaRouter);
-        // this.app.use(this.apiPaths.direcciones, require('../routes/direccion'));
+        this.app.use(this.apiPaths.direcciones, routes_1.direccionRouter);
+        // this.app.use(this.apiPaths.users, require('../routes/usuario'));
         // // this.app.use(this.path.find, require('../routes/find'));
         // this.app.use(this.apiPaths.inventario, require('../routes/inventario'));
         // this.app.use(this.apiPaths.promociones, require('../routes/promocion'));
         // this.app.use(this.apiPaths.productos, require('../routes/Producto'));
         // // this.app.use(this.path.uploads, require('../routes/upload'));
-        // this.app.use(this.apiPaths.users, require('../routes/usuario'));
         // this.app.use(this.apiPaths.carrito, require('../routes/carrito'));
     }
     sockets() {

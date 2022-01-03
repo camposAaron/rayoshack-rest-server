@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.existsPromocion = exports.existsProduct = exports.existsCategoryId = exports.existsId = exports.existsEmail = exports.isRoleValid = void 0;
+exports.validateDepartment = exports.validateCollections = exports.existsPromocion = exports.existsProduct = exports.existsCategoryId = exports.existsId = exports.existsEmail = exports.isRoleValid = void 0;
 const index_1 = require("../models/index");
 //verificar si el rol es valido 
 const isRoleValid = (rol) => __awaiter(void 0, void 0, void 0, function* () {
@@ -63,23 +63,25 @@ const existsPromocion = (id) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.existsPromocion = existsPromocion;
-// /**
-//  * validar colecciones
-//  * @param {la coleccion de la imagen } collection
-//  * @param {las colecciones permitidas} colecctions
-//  */
-// const validateCollections = (collection = '', collections: [String]) => {
-//     const include = collections.includes(collection);
-//     if (!include) {
-//         throw new Error(`La coleccion ${collection} no es permitida`);
-//     }
-//     return true
-// }
-// //Validar departamento.
-// const validateDepartment = (department: String, validDepartments: String[]) => {
-//     if (!validDepartments.includes(department)) {
-//         throw new Error(`No hay envio al departamento de: ${department}`);
-//     }
-//     return true
-// }
+/**
+ * validar colecciones
+ * @param {la coleccion de la imagen } collection
+ * @param {las colecciones permitidas} colecctions
+ */
+const validateCollections = (collection = '', collections) => {
+    const include = collections.includes(collection);
+    if (!include) {
+        throw new Error(`La coleccion ${collection} no es permitida`);
+    }
+    return true;
+};
+exports.validateCollections = validateCollections;
+//Validar departamento.
+const validateDepartment = (department, validDepartments) => {
+    if (!validDepartments.includes(department)) {
+        throw new Error(`No hay envio al departamento de: ${department}`);
+    }
+    return true;
+};
+exports.validateDepartment = validateDepartment;
 //# sourceMappingURL=db-validator.js.map

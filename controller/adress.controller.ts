@@ -1,6 +1,9 @@
+import { Response } from "express";
+
 const { Direccion, Usuario } = require('../models');
 
-const createAdress = async(req, res = response) => {
+const createAdress = async(req: any, res: Response) => {
+    
     const { ...data } = req.body;
     const user = req.user;
  
@@ -9,19 +12,17 @@ const createAdress = async(req, res = response) => {
         await Direccion.findByIdAndDelete({_id : user.direccion});
     }
     
-    const adress = new Direccion(data);
-    await adress.save();
+    const address = new Direccion(data);
+    await address.save();
 
-    user.direccion = adress._id;
-
+    user.direccion = address._id;
     await user.save();
+
     res.json({
-        adress
+        direccion: address
     });
 }
 
-
-
-module.exports = {
+export {
     createAdress
 }
