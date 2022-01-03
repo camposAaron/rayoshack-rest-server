@@ -19,6 +19,7 @@ const config_1 = __importDefault(require("../database/config"));
 const http_1 = __importDefault(require("http"));
 const socket_controller_1 = require("../sockets/socket.controller");
 const socket_io_1 = __importDefault(require("socket.io"));
+const routes_1 = require("../routes");
 class myServer {
     constructor() {
         this.apiPaths = {
@@ -65,8 +66,8 @@ class myServer {
         }));
     }
     routes() {
-        // this.app.use(this.apiPaths.categorias, require('../routes/categoria'));
-        // this.app.use(this.apiPaths.auth, require('../routes/auth'));
+        this.app.use(this.apiPaths.auth, routes_1.userRouter);
+        this.app.use(this.apiPaths.categorias, routes_1.categoriaRouter);
         // this.app.use(this.apiPaths.direcciones, require('../routes/direccion'));
         // // this.app.use(this.path.find, require('../routes/find'));
         // this.app.use(this.apiPaths.inventario, require('../routes/inventario'));

@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.googleVerify = void 0;
 const google_auth_library_1 = require("google-auth-library");
 const client = new google_auth_library_1.OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const googleVerify = (idToken) => __awaiter(void 0, void 0, void 0, function* () {
@@ -21,5 +20,5 @@ const googleVerify = (idToken) => __awaiter(void 0, void 0, void 0, function* ()
     const { name, email, img } = (_a = ticket.getPayload()) === null || _a === void 0 ? void 0 : _a.name;
     return { name, email, img };
 });
-exports.googleVerify = googleVerify;
+exports.default = googleVerify;
 //# sourceMappingURL=googe-verify.js.map

@@ -1,16 +1,12 @@
-const { response, request } = require("express");
-const {
-    Categoria
-} = require('../models/index');
+import { Request, Response } from "express";
+import { Categoria } from "../models";
 
-
-
-const getCategories = async(req = request, res = response) => {
-    
+const getCategories = async(req:Request, res: Response) => {
+    console.log('kakak00');
     const { limite = 5, desde } = req.query;
     const query = { estado : true };
   
-    const [total, categories] = await Promise.all([
+    const [total, categorias] = await Promise.all([
         Categoria.countDocuments(query),
         Categoria.find(query)
         .populate('user','name')
@@ -18,14 +14,15 @@ const getCategories = async(req = request, res = response) => {
         .limit(Number(limite))
     ]);
 
-    res.json({
+    res.status(200).json({
         total,
-        categories
+        categorias
     });
+
 }
 
 
-const getCategory = async(req = request, res = response) =>{
+const getCategory = async(req: Request, res: Response) =>{
     
     const { id }=  req.params;
     const category = await Categoria.findById({_id : id});
@@ -36,7 +33,7 @@ const getCategory = async(req = request, res = response) =>{
 
 }
 
-const createCategory = async(req = request, res = response) =>{
+const createCategory = async(req: Request, res: Response) =>{
    
     const  nombre = req.body.nombre.toUpperCase();
 
@@ -64,7 +61,7 @@ const createCategory = async(req = request, res = response) =>{
 } 
 
 //Actualizar Categoria  --ADMIN_ROLE autenticado
-const updateCategory = async(req = request, res = response) =>{
+const updateCategory = async(req: Request, res: Response) =>{
     
     const { id }=  req.params;
     let { estado, nombre} = req.body
@@ -77,7 +74,7 @@ const updateCategory = async(req = request, res = response) =>{
 }
 
 
-const deleteCategory = async(req = request, res = response) =>{
+const deleteCategory = async(req: Request, res: Response) =>{
     const { id } =  req.params;
 
     const category = await Categoria.findByIdAndUpdate(id, {estado : false}, {new : true});
@@ -87,8 +84,7 @@ const deleteCategory = async(req = request, res = response) =>{
 }
 
 
-
-module.exports = {
+export  {
     getCategories,
     getCategory,
     updateCategory,

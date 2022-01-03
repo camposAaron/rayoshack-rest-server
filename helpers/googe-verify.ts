@@ -8,7 +8,7 @@ interface GoogleClient{
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-export const googleVerify = async (idToken: string):Promise<GoogleClient> => {
+const googleVerify = async (idToken: string):Promise<GoogleClient> => {
     
     const ticket = await client.verifyIdToken({
         idToken,
@@ -24,4 +24,4 @@ export const googleVerify = async (idToken: string):Promise<GoogleClient> => {
     return {name, email, img};
 }
 
-
+export default googleVerify

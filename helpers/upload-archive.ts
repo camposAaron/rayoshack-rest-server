@@ -2,7 +2,7 @@ import {  v4 as uuidv4 } from 'uuid';
 
 import path from 'path';
 
-export const uploadArchive = (files:any, validExtensions = ['jpg', 'png', 'jpeg','gif'], folder = '') => {
+const uploadArchive = (files:any, validExtensions = ['jpg', 'png', 'jpeg','gif'], folder = '') => {
   return new Promise((resolve, reject) => {
 
     /*Validar extension */
@@ -28,3 +28,5 @@ export const uploadArchive = (files:any, validExtensions = ['jpg', 'png', 'jpeg'
 
   });    
 }
+
+export default uploadArchive 

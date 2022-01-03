@@ -7,6 +7,9 @@ import http, { Server } from 'http';
 import {socketController} from '../sockets/socket.controller';
 import socketIO from 'socket.io';
 
+import { categoriaRouter, userRouter } from '../routes';
+
+
 
 class myServer {
     private app: Application;
@@ -69,8 +72,8 @@ class myServer {
     }
 
     routes() {
-        // this.app.use(this.apiPaths.categorias, require('../routes/categoria'));
-        // this.app.use(this.apiPaths.auth, require('../routes/auth'));
+        this.app.use(this.apiPaths.auth,  userRouter);
+        this.app.use(this.apiPaths.categorias, categoriaRouter);
         // this.app.use(this.apiPaths.direcciones, require('../routes/direccion'));
         // // this.app.use(this.path.find, require('../routes/find'));
         // this.app.use(this.apiPaths.inventario, require('../routes/inventario'));

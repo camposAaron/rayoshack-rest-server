@@ -1,24 +1,26 @@
-const { Router, response } = require('express');
-const { check } = require('express-validator');
+import { Router } from 'express';
+import { check } from 'express-validator';
 
-const {
+import {
     validarCampos,
     validarJWT,
-    isAdminRole
-} = require('../middlewares/index');
+    validarRol
+} from '../middlewares';
 
-const { existsCategoryId, } = require('../helpers');
-const {
+import { dbValidator } from '../helpers';
+
+import {
     getCategories,
     getCategory,
     updateCategory,
     deleteCategory,
     createCategory
-} = require('../controller/category.controller');
+} from '../controller/category.controller';
 
 const router = Router();
+
 /*
-    {{URL}}/api/categorias
+    {{URL}}/api/categoria
 */
 
 // Obtener todas las categorias - publico
@@ -27,14 +29,14 @@ router.get('/', getCategories);
 // Obtener una categoria - publico
 router.get('/:id', [
     check('id', 'El id no es valido').isMongoId(),
-    check('id').custom(existsCategoryId),
+    check('id').custom(dbValidator.existsCategoryId),
     validarCampos
 ], getCategory);
 
 // crear categoria - private -solo administrador con token valido
 router.post('/', [
     validarJWT,
-    isAdminRole,
+    validarRol.isAdminRole,
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
     validarCampos
 ], createCategory);
@@ -42,10 +44,10 @@ router.post('/', [
 // Actualizar una categoria - private -admin con token valido
 router.put('/:id', [
     validarJWT,
-    isAdminRole,
+    validarRol.isAdminRole,
     check('nombre').not().isEmpty(),
     check('id', 'El id no es valido').isMongoId(),
-    check('id').custom(existsCategoryId),
+    check('id').custom(dbValidator.existsCategoryId),
     validarCampos
 ],
     updateCategory);
@@ -53,12 +55,12 @@ router.put('/:id', [
 //Borrar una categoria -Admin
 router.delete('/:id', [
     validarJWT,
-    isAdminRole,
+    validarRol.isAdminRole,
     check('id','el id no es valido').isMongoId(),
-    check('id').custom(existsCategoryId),
+    check('id').custom(dbValidator.existsCategoryId),
     validarCampos
 ],
     deleteCategory);
 
-module.exports = router;
+export default router;
 

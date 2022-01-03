@@ -1,13 +1,11 @@
-const { response, request } = require('express');
-const Usuario = require('../models/usuario');
-
-const bcriptjs = require('bcryptjs');
-const generateJWT = require('../helpers/generate-jwt');
-const { googleVerify } = require('../helpers/googe-verify');
+import { Response } from "express";
+import  bcriptjs         from 'bcryptjs';
+import  { Usuario }          from '../models';
+import  {generateJWT, googleVerify} from '../helpers'
 
 
 
-const login = async (req, res = response) => {
+export const login = async (req:any, res: Response) => {
 
     const { email, password } = req.body;
 
@@ -18,14 +16,14 @@ const login = async (req, res = response) => {
 
         if (!usuario) {
             return res.status(400).json({
-                msg: 'Usuario / password no son correctos -correo'
+                msg: 'Usuario / password no son correctos'
             });
         }
 
         //Si el usuario esta activo
         if (!usuario.estado) {
             return res.status(400).json({
-                msg: 'Usuario / password no son correctos -estado = false'
+                msg: 'Usuario no existe'
             })
         }
 
@@ -33,13 +31,12 @@ const login = async (req, res = response) => {
         const validPassword = bcriptjs.compareSync(password, usuario.password);
         if (!validPassword) {
             res.status(400).json({
-                msg: 'Usuario / password no son correctos -constraseña = false'
+                msg: 'Usuario / password no son correctos'
             })
         }
 
         //generar el JWT
         const token = await generateJWT(usuario.id);
-
 
         res.json({
             usuario,
@@ -55,7 +52,7 @@ const login = async (req, res = response) => {
 
 }
 
-const googleSignin = async (req, res = response) => {
+export const googleSignin = async (req:any, res:Response) => {
 
     const { id_token } = req.body;
 
@@ -102,9 +99,4 @@ const googleSignin = async (req, res = response) => {
         });
     }
 
-}
-
-module.exports = {
-    login,
-    googleSignin
 }

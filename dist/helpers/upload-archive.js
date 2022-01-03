@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadArchive = void 0;
 const uuid_1 = require("uuid");
 const path_1 = __importDefault(require("path"));
 const uploadArchive = (files, validExtensions = ['jpg', 'png', 'jpeg', 'gif'], folder = '') => {
@@ -25,5 +24,5 @@ const uploadArchive = (files, validExtensions = ['jpg', 'png', 'jpeg', 'gif'], f
         });
     });
 };
-exports.uploadArchive = uploadArchive;
+exports.default = uploadArchive;
 //# sourceMappingURL=upload-archive.js.map
