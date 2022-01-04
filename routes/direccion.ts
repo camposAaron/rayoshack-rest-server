@@ -20,11 +20,11 @@ const router = Router();
 router.put('/',[
     validarJWT,
     validarRol.haveRole('USER_ROLE'),
-    check('departamento','El departamento es un campo obligatorio').not().isEmpty(),
-    check('departamento').custom( d => dbValidator.validateDepartment(d, ['managua','masaya','leon','granada'])),
-    check('direccion', 'El departamento es un campo obligatorio').not().isEmpty(),
-    check('telefono', 'El telefono es un campo obligatorio').not().isEmpty(),
-    check('telefono', 'El telefono debe ser de 8 caracteres').isLength({ min: 9, max:9}),
+    check('departamento','El departamento es un campo obligatorio').not().isEmpty().optional(),
+    check('departamento').custom( d => dbValidator.validateDepartment(d, ['Managua','Masaya','Leon','Granada'])),
+    check('direccion', 'La direccion es un campo obligatorio').not().isEmpty().optional(),
+    check('telefono', 'El telefono es un campo obligatorio').not().isEmpty().optional(),
+    check('telefono', 'El telefono debe ser de 8 caracteres').isLength({ min: 8, max:8}),
     validarCampos
 ], createAdress);
 

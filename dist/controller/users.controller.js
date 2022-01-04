@@ -32,7 +32,7 @@ const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const [total, usuarios] = yield Promise.all([
         usuario_1.default.countDocuments(query),
         usuario_1.default.find(query)
-            .populate('direccion', ['_id', 'departamento', 'direccion', 'telefono'], { state: true })
+            .populate('direccion', ['_id', 'departamento', 'direccion', 'telefono'], { estado: true })
             .skip(Number(desde))
             .limit(Number(limite))
     ]);
@@ -46,10 +46,12 @@ const putUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const _a = req.body, { _id, email, password, google, rol, estado } = _a, rest = __rest(_a, ["_id", "email", "password", "google", "rol", "estado"]);
     console.log(req.uid, id);
-    if (req.uid !== id) {
-        return res.status(401).json({
-            msg: `No estas autorizado para realizar cambios`
-        });
+    if (req.user.rol === 'USER_ROLE') {
+        if (req.uid !== id) {
+            return res.status(401).json({
+                msg: `No estas autorizado para eliminar la cuenta`
+            });
+        }
     }
     //TODO validar contra base de datos.
     if (password) {
@@ -75,6 +77,13 @@ const postUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.postUsers = postUsers;
 const deleteUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
+    if (req.user.rol === 'USER_ROLE') {
+        if (req.uid !== id) {
+            return res.status(401).json({
+                msg: `No estas autorizado para eliminar la cuenta`
+            });
+        }
+    }
     const user = yield usuario_1.default.findByIdAndUpdate(id, { estado: false });
     const userAutenticated = req.user;
     res.json({ user, userAutenticated });

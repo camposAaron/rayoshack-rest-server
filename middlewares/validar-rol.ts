@@ -29,7 +29,7 @@ export const haveRole = ( ...roles: Array<String>) => {
  
         if( !roles.includes( req.user.rol ) ){
            return  res.status(401).json({
-                msg : `El servicio require uno de los siguientes roles: ${ roles }`
+                msg : `El servicio requiere uno de los siguientes roles: ${ roles }`
             });
         }
     
@@ -37,23 +37,6 @@ export const haveRole = ( ...roles: Array<String>) => {
     }
 }
 
-export const verifyUser = (id:String) => {
-    console.log('here');
-    const middlewareFuction = (req:any, res:Response) => {
-        return new Promise((resolve, reject)=>{
-            if(req.user.rol === 'USER_ROLE'){
-                console.log(req.user.rol);
-                if(req.user.rol.uid === id){
-                    resolve('all ok');
-                }else{
-                    reject(`No esta autorizado para editar el usuario ${id}`);
-                }
-            }else{
-                resolve('all ok');
-            }
-        })
-    }
-} 
 
 
 
