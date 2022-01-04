@@ -7,9 +7,7 @@ import http, { Server } from 'http';
 import {socketController} from '../sockets/socket.controller';
 import socketIO from 'socket.io';
 
-import { categoriaRouter, userRouter, direccionRouter } from '../routes';
-
-
+import { categoriaRouter, userRouter, direccionRouter, authRouter } from '../routes';
 
 class myServer {
     private app: Application;
@@ -17,8 +15,6 @@ class myServer {
     private server: Server ;
     private  io: socketIO.Server;
    
-
-
     private apiPaths = {
         auth: '/api/auth',
         categorias: '/api/categoria',
@@ -72,17 +68,16 @@ class myServer {
     }
 
     routes() {
-        this.app.use(this.apiPaths.auth,  userRouter);
+        this.app.use(this.apiPaths.auth,  authRouter);
         this.app.use(this.apiPaths.categorias, categoriaRouter);
         this.app.use(this.apiPaths.direcciones, direccionRouter);
-        // this.app.use(this.apiPaths.users, require('../routes/usuario'));
+        this.app.use(this.apiPaths.users, userRouter);
         // // this.app.use(this.path.find, require('../routes/find'));
         // this.app.use(this.apiPaths.inventario, require('../routes/inventario'));
         // this.app.use(this.apiPaths.promociones, require('../routes/promocion'));
         // this.app.use(this.apiPaths.productos, require('../routes/Producto'));
         // // this.app.use(this.path.uploads, require('../routes/upload'));
         // this.app.use(this.apiPaths.carrito, require('../routes/carrito'));
-
     }
 
     sockets(){
@@ -95,5 +90,4 @@ class myServer {
         });
     }
 }
-
 export default myServer;

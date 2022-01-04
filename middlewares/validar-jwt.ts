@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import  JWT, { Secret } from 'jsonwebtoken';
 import { Usuario } from "../models";
 
-const privateKey:Secret = process.env.SECRETORPRIVATEKEY!;
+
 
  const validarJWT = async (req: any, res:Response, next:NextFunction) => {
 
@@ -17,23 +17,23 @@ const privateKey:Secret = process.env.SECRETORPRIVATEKEY!;
 
      try{
         
-        const data:any = JWT.verify(token, privateKey);
+        const data:any = JWT.verify(token, process.env.SECRETORPRIVATEKEY!);
         req.uid = data.uid;
 
         //leer el usuario que corresponde al uid
         const user =  await Usuario.findById( data.uid );
-
+        
         //comprobar si el usuario existe
         if(!user){
             return res.status(401).json({
-                msg : 'Token no válido -Usuario no existe en DB'
+                msg : 'Token no válido'
             });
         }
 
         //comprobar si el usuario esta activo
         if(!user.estado){
             return res.status(401).json({
-                msg : 'Token no válido -Usuario estado :false'
+                msg : 'Token no válido'
             });
         }
 

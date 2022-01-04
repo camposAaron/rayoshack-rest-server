@@ -17,7 +17,7 @@ import{
 
 const router = Router();
 
-router.post('/',[
+router.put('/',[
     validarJWT,
     validarRol.haveRole('USER_ROLE'),
     check('departamento','El departamento es un campo obligatorio').not().isEmpty(),

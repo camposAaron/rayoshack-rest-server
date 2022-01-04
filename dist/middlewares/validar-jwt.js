@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const models_1 = require("../models");
-const privateKey = process.env.SECRETORPRIVATEKEY;
 const validarJWT = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.header('x-token');
     if (!token) {
@@ -23,20 +22,20 @@ const validarJWT = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         });
     }
     try {
-        const data = jsonwebtoken_1.default.verify(token, privateKey);
+        const data = jsonwebtoken_1.default.verify(token, process.env.SECRETORPRIVATEKEY);
         req.uid = data.uid;
         //leer el usuario que corresponde al uid
         const user = yield models_1.Usuario.findById(data.uid);
         //comprobar si el usuario existe
         if (!user) {
             return res.status(401).json({
-                msg: 'Token no válido -Usuario no existe en DB'
+                msg: 'Token no válido'
             });
         }
         //comprobar si el usuario esta activo
         if (!user.estado) {
             return res.status(401).json({
-                msg: 'Token no válido -Usuario estado :false'
+                msg: 'Token no válido'
             });
         }
         req.user = user;

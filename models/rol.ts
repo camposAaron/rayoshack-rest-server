@@ -1,16 +1,14 @@
 import {model, Schema} from 'mongoose';
 
 interface Rol{
-    rolName: String;
-    estado: Boolean;
+    rol: String;
 }
 
 const SchemaRole = new Schema<Rol>({
-    rolName : {
+    rol : {
         type : String,
         required : [true, 'El rol es obligatorio']
-    },
-    estado : { type : Boolean, required : true, default : true}
+    }
 });
 
 SchemaRole.methods.toJSON = function () {

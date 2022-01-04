@@ -1,9 +1,11 @@
-import userRouter from '../routes/auth';
-import categoriaRouter from '../routes/categoria';
-import direccionRouter from '../routes/direccion';
+import authRouter from './auth';
+import categoriaRouter from './categoria';
+import direccionRouter from './direccion';
+import userRouter from './usuario';
 
 export {
-    userRouter,
+    authRouter,
     categoriaRouter,
-    direccionRouter
+    direccionRouter,
+    userRouter
 }

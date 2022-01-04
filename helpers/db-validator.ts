@@ -3,7 +3,7 @@ import { Usuario, Categoria, Producto, Rol, Promocion } from '../models/index';
 
 //verificar si el rol es valido 
 export const isRoleValid = async (rol: String) => {
-    const existRole = await Rol.findOne({ rol });
+    const existRole = await Rol.findOne({rol});
     console.log(existRole);
     if (!existRole) {
         throw new Error(`El rol ${rol} no existe en la BD`);
@@ -87,4 +87,5 @@ export const validateDepartment = (department: String, validDepartments: String[
 
     return true
 }
+
 

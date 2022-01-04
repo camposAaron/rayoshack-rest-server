@@ -13,11 +13,10 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const SchemaRole = new mongoose_1.Schema({
-    rolName: {
+    rol: {
         type: String,
         required: [true, 'El rol es obligatorio']
-    },
-    estado: { type: Boolean, required: true, default: true }
+    }
 });
 SchemaRole.methods.toJSON = function () {
     const _a = this.toObject(), { __v, estado } = _a, data = __rest(_a, ["__v", "estado"]);

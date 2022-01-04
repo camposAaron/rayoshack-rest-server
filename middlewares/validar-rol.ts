@@ -20,7 +20,7 @@ export const isAdminRole = (req: any, res: Response, next:NextFunction) => {
  *have role es una funcion que evalua multiples roles  
  * */
 
-export const haveRole = ( ...roles: [String] ) => {
+export const haveRole = ( ...roles: Array<String>) => {
     return (req:any, res:Response, next:NextFunction) => {
     
         if( !req.user ){
@@ -36,3 +36,24 @@ export const haveRole = ( ...roles: [String] ) => {
         next();
     }
 }
+
+export const verifyUser = (id:String) => {
+    console.log('here');
+    const middlewareFuction = (req:any, res:Response) => {
+        return new Promise((resolve, reject)=>{
+            if(req.user.rol === 'USER_ROLE'){
+                console.log(req.user.rol);
+                if(req.user.rol.uid === id){
+                    resolve('all ok');
+                }else{
+                    reject(`No esta autorizado para editar el usuario ${id}`);
+                }
+            }else{
+                resolve('all ok');
+            }
+        })
+    }
+} 
+
+
+
