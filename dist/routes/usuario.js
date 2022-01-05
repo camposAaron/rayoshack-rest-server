@@ -28,8 +28,8 @@ router.post('/', [
     (0, express_validator_1.check)('email', 'El correo es requerido').not().isEmpty(),
     (0, express_validator_1.check)('email', 'El correo no es valido').isEmail(),
     (0, express_validator_1.check)('email').custom(helpers_1.dbValidator.existsEmail),
-    (0, express_validator_1.check)('role', 'El rol es requerido').not().isEmpty(),
-    (0, express_validator_1.check)('role', 'No es un rol valido').isIn(['USER_ROLE', 'ADMIN_ROLE']),
+    (0, express_validator_1.check)('rol', 'El rol es requerido').not().isEmpty(),
+    (0, express_validator_1.check)('rol', 'No es un rol valido').isIn(['USER_ROLE', 'ADMIN_ROLE']),
     // check('rol').custom( dbValidator.isRoleValid),
     middlewares_1.validarCampos
 ], users_controller_1.postUsers);

@@ -1,30 +1,32 @@
-const { check } = require('express-validator');
-const {Router} = require('express');
+import { check  }  from 'express-validator';
+import { Router }  from 'express';
 
-const {
+import {
     validarJWT,
-    haveRole,
+    validarRol,
     validarCampos,
     validarFecha
-} = require('../middlewares');
+} from '../middlewares';
 
-const {
+import {
     createPromotion,
     getPromotions,
     getPromotionId,
     updatePromotion,
     deletePromotion
-} = require('../controller/promotion.controller')
+} from '../controller/promotion.controller';
 
-const {
-    existsPromocion
-} = require('../helpers');
+import {
+    dbValidator
+} from '../helpers';
 
 const router = Router();
 
 router.post('/', [
     validarJWT,
-    haveRole('ADMIN_ROLE'),
+    validarRol.haveRole('ADMIN_ROLE'),
+    check('titulo').not().isEmpty(),
+    check('descuento','El campo descuento es numerico').isNumeric(),
     check('fechaInicio').isDate({format: 'YYYY-MM-DD', delimiters :['/','-']}),
     check('fechaFinal').isDate({format: 'YYYY-MM-DD', delimiters :['/','-']}),
     validarFecha,
@@ -36,31 +38,31 @@ router.get('/', getPromotions);
 
 router.get('/:id', [
     check('id', 'el id no es valido').isMongoId(),
-    check('id').custom( existsPromocion ),
+    check('id').custom( dbValidator.existsPromocion ),
     validarCampos
 ], getPromotionId);
 
 router.delete('/:id', [
     validarJWT,
-    haveRole('ADMIN_ROLE'),
+    validarRol.haveRole('ADMIN_ROLE'),
     check('id').isMongoId(),
-    check('id').custom(existsPromocion),
+    check('id').custom(dbValidator.existsPromocion),
     validarCampos
 ],
     deletePromotion);
 
 router.put('/:id',[
     validarJWT,
-    haveRole('ADMIN_ROLE'),
+    validarRol.haveRole('ADMIN_ROLE'),
     check('id').isMongoId(),
-    check('id').custom(existsPromocion),
+    check('id').custom(dbValidator.existsPromocion),
+    check('titulo').not().isEmpty().optional(),
+    check('descuento','El campo descuento es numerico').isNumeric().optional(),
     check('fechaInicio').isDate({format: 'YYYY-MM-DD', delimiters :['/','-']}),
     check('fechaFinal').isDate({format: 'YYYY-MM-DD', delimiters :['/','-']}),
     validarFecha,
     validarCampos
 ],updatePromotion);
 
-
-
-module.exports = router;
+export default router;
 
