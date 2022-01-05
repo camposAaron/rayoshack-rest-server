@@ -66,11 +66,12 @@ const putUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.putUsers = putUsers;
 const postUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { nombre, email, direccion, password, rol } = req.body;
+    console.log(rol);
     const user = new usuario_1.default({ nombre, email, direccion, rol });
     //Encriptar la contraseña
     const salt = bcrypt.genSaltSync();
     user.password = bcrypt.hashSync(password, salt);
-    //Guardar en la base de datos
+    // //Guardar en la base de datos
     yield user.save();
     res.json(user);
 });

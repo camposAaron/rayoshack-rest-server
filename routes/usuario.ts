@@ -40,8 +40,8 @@ router.post('/', [
     check('email','El correo es requerido').not().isEmpty(),
     check('email', 'El correo no es valido').isEmail(),
     check('email').custom( dbValidator.existsEmail),
-    check('role', 'El rol es requerido').not().isEmpty(),
-    check('role', 'No es un rol valido').isIn(['USER_ROLE','ADMIN_ROLE']),
+    check('rol', 'El rol es requerido').not().isEmpty(),
+    check('rol', 'No es un rol valido').isIn(['USER_ROLE','ADMIN_ROLE']),
     // check('rol').custom( dbValidator.isRoleValid),
     validarCampos
 ], postUsers);
