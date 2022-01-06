@@ -39,6 +39,7 @@ const ProductSchema = new mongoose_1.Schema({
             type: mongoose_1.Types.ObjectId,
             ref: 'Comentario'
         }],
+    calificacion: { Type: String },
     estado: {
         type: Boolean,
         required: true,

@@ -11,9 +11,10 @@ export interface Producto {
     detalles: String;
     descripcion: String;
     categoria: Types.ObjectId;
-    stock: Number;
+    stock: Boolean;
     promocion: Types.ObjectId;
-    comentario: Types.Array<Comentario>
+    comentario: Types.Array<Comentario>,
+    calificacion: String,
     estado: Boolean;
 }
 
@@ -44,6 +45,7 @@ const ProductSchema = new Schema<Producto>({
         type : Types.ObjectId,
         ref : 'Comentario'
     }],
+    calificacion : { Type: String},
     estado: {
         type: Boolean,
         required: true,
