@@ -45,7 +45,7 @@ export const existsProduct = async (id: String) => {
     }
 
     if (!idFound) {
-        throw new Error(`el id: ${id} no existe`);
+        throw new Error(`el producto con id: ${id}, no existe.`);
     }
 }
 
@@ -53,11 +53,11 @@ export const existsPromocion = async (id: String) => {
     const idFound = await Promocion.findById(id);
 
     if (!idFound.estado) {
-        throw new Error(`id no encontrado -state: false`);
+        throw new Error(`id no encontrado.`);
     }
 
     if (!idFound) {
-        throw new Error(`el id: ${id} no existe`);
+        throw new Error(`La promocion con id: ${id}, no existe.`);
     }
 }
 

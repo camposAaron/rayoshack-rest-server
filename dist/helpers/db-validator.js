@@ -49,17 +49,17 @@ const existsProduct = (id) => __awaiter(void 0, void 0, void 0, function* () {
         throw new Error(`id no encontrado -state: false`);
     }
     if (!idFound) {
-        throw new Error(`el id: ${id} no existe`);
+        throw new Error(`el producto con id: ${id}, no existe.`);
     }
 });
 exports.existsProduct = existsProduct;
 const existsPromocion = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const idFound = yield index_1.Promocion.findById(id);
     if (!idFound.estado) {
-        throw new Error(`id no encontrado -state: false`);
+        throw new Error(`id no encontrado.`);
     }
     if (!idFound) {
-        throw new Error(`el id: ${id} no existe`);
+        throw new Error(`La promocion con id: ${id}, no existe.`);
     }
 });
 exports.existsPromocion = existsPromocion;

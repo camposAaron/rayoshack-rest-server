@@ -3,7 +3,7 @@ import validarJWT from './validar-jwt';
 import * as validarRol from './validar-rol';
 import validarCargaArchivo from './validar-archivo';
 import validarFecha from './validar-fecha';
-
+import generarCesta from './generarCesta';
 
 
 export {
@@ -11,5 +11,6 @@ export {
     validarCargaArchivo,
     validarRol,
     validarJWT,
-    validarFecha
+    validarFecha,
+    generarCesta
 }

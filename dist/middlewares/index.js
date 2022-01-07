@@ -22,7 +22,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validarFecha = exports.validarJWT = exports.validarRol = exports.validarCargaArchivo = exports.validarCampos = void 0;
+exports.generarCesta = exports.validarFecha = exports.validarJWT = exports.validarRol = exports.validarCargaArchivo = exports.validarCampos = void 0;
 const validar_campos_1 = __importDefault(require("./validar-campos"));
 exports.validarCampos = validar_campos_1.default;
 const validar_jwt_1 = __importDefault(require("./validar-jwt"));
@@ -33,4 +33,6 @@ const validar_archivo_1 = __importDefault(require("./validar-archivo"));
 exports.validarCargaArchivo = validar_archivo_1.default;
 const validar_fecha_1 = __importDefault(require("./validar-fecha"));
 exports.validarFecha = validar_fecha_1.default;
+const generarCesta_1 = __importDefault(require("./generarCesta"));
+exports.generarCesta = generarCesta_1.default;
 //# sourceMappingURL=index.js.map

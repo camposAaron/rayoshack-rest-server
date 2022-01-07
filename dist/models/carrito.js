@@ -25,7 +25,9 @@ const CarritoSchema = new mongoose_1.Schema({
                 required: true
             },
             cantidad: { type: Number, required: true, default: 1 },
-            precio: Number
+            precio: Number,
+            descuento: Number,
+            subTotal: Number
         }],
     total: {
         type: Number

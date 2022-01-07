@@ -8,7 +8,7 @@ import {socketController} from '../sockets/socket.controller';
 import socketIO from 'socket.io';
 
 import { categoriaRouter, userRouter,
-     direccionRouter, authRouter, promocionRouter } from '../routes';
+     direccionRouter, authRouter, promocionRouter, productoRouter, carritoRouter } from '../routes';
 
 class myServer {
     private app: Application;
@@ -74,11 +74,11 @@ class myServer {
         this.app.use(this.apiPaths.direcciones, direccionRouter);
         this.app.use(this.apiPaths.users, userRouter);
         this.app.use(this.apiPaths.promociones, promocionRouter)
+        this.app.use(this.apiPaths.productos, productoRouter);
+        this.app.use(this.apiPaths.carrito, carritoRouter);
         // // this.app.use(this.path.find, require('../routes/find'));
         // this.app.use(this.apiPaths.inventario, require('../routes/inventario'));
-        // this.app.use(this.apiPaths.productos, require('../routes/Producto'));
         // // this.app.use(this.path.uploads, require('../routes/upload'));
-        // this.app.use(this.apiPaths.carrito, require('../routes/carrito'));
     }
 
     sockets(){

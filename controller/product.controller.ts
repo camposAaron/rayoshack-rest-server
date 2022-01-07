@@ -1,17 +1,16 @@
-const { response } = require('express');
-const { Producto, Carrito } = require('../models/index');
+import { Response } from "express";
 
-const createProduct = async (req, res = response) => {
+import { Producto } from '../models/index';
+
+const createProduct = async (req:any, res: Response) => {
 
     const { modelo, ...restFields } = req.body;
-
-    console.log(restFields);
 
     const productoName = await Producto.findOne({ modelo });
 
     if (productoName) {
         return res.status(400).json({
-            msg: `El producto ${productoName.name} ya esta registrado!`
+            msg: `El producto con modelo:${productoName.modelo}, ya esta registrado!`
         });
     }
 
@@ -26,7 +25,7 @@ const createProduct = async (req, res = response) => {
 }
 
 
-const getProducts = async (req, res = response) => {
+const getProducts = async (req:any, res: Response) => {
 
     const { limite = 5, desde, stock = true } = req.query;
     //la consulta por defecto devolvera los productos con stock disponible
@@ -36,8 +35,9 @@ const getProducts = async (req, res = response) => {
     const [total, productos] = await Promise.all([
         Producto.countDocuments(query),
         Producto.find(query).
-            populate('categoria', 'nombre').
-            populate('promocion', 'descuento').
+            populate('categoria',[' _id','nombre'], { estado : true}).
+            populate('promocion',['_id','titulo','descuento'],{estado : true}).
+            populate({ path: 'comentarios', select: 'comentario'}).
             skip(Number(desde)).
             limit(Number(limite))
     ]);
@@ -48,17 +48,18 @@ const getProducts = async (req, res = response) => {
     });
 }
 
-const getProductById = async (req, res = response) => {
+const getProductById = async (req:any, res: Response) => {
     const { id } = req.params;
 
     const product = await Producto.findById(id)
-        .populate('categoria', 'nombre')
-        .populate('promocion', 'descuento')
-
+        .populate('categoria',[' _id','nombre'], {estado : true})
+        .populate('promocion',['_id','titulo','descuento'],{estado : true})
+        .populate({ path: 'comentarios', select: 'comentario'});
+        
     res.json(product);
 }
 
-const deleteProduct = async (req, res = response) => {
+const deleteProduct = async (req:any, res: Response) => {
     const { id } = req.params;
 
     const product = await Producto.findByIdAndUpdate(id, { estado: false }, { new: true });
@@ -67,7 +68,7 @@ const deleteProduct = async (req, res = response) => {
 
 }
 
-const updateProduct = async (req, res = response) => {
+const updateProduct = async (req:any, res: Response) => {
     const { id } = req.params;
     const { _id, estado, ...rest } = req.body;
     
@@ -78,7 +79,7 @@ const updateProduct = async (req, res = response) => {
 
 }
 
-module.exports = {
+export{
     createProduct,
     getProducts,
     getProductById,
