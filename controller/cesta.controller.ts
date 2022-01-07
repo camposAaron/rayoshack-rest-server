@@ -44,7 +44,7 @@ const getCarrito = async(req:any, res:Response) => {
 }
 
 
-const deleteDetalleCarrito = async (req: any, res: Response) => {
+const deleteProductoCarrito = async (req: any, res: Response) => {
     res.json({ msg: 'delete' });
 }
 

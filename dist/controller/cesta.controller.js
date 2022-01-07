@@ -55,7 +55,7 @@ const getCarrito = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     res.json(myCarrito);
 });
 exports.getCarrito = getCarrito;
-const deleteDetalleCarrito = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteProductoCarrito = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json({ msg: 'delete' });
 });
 const updateDetalleCarrito = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
