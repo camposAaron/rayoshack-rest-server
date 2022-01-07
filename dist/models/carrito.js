@@ -18,17 +18,18 @@ const CarritoSchema = new mongoose_1.Schema({
         ref: 'Usuario',
         required: true
     },
-    cesta: [{
+    cesta: {
+        detalle: {
             producto: {
                 type: mongoose_1.Schema.Types.ObjectId,
                 ref: 'Producto',
                 required: true
             },
             cantidad: { type: Number, required: true, default: 1 },
-            precio: Number
-        }],
-    total: {
-        type: Number
+            precio: Number,
+            subTotal: Number
+        },
+        total: { type: Number }
     },
     estado: {
         type: Boolean,

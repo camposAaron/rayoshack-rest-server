@@ -72,10 +72,10 @@ class myServer {
         this.app.use(this.apiPaths.users, routes_1.userRouter);
         this.app.use(this.apiPaths.promociones, routes_1.promocionRouter);
         this.app.use(this.apiPaths.productos, routes_1.productoRouter);
+        this.app.use(this.apiPaths.carrito, routes_1.carritoRouter);
         // // this.app.use(this.path.find, require('../routes/find'));
         // this.app.use(this.apiPaths.inventario, require('../routes/inventario'));
         // // this.app.use(this.path.uploads, require('../routes/upload'));
-        // this.app.use(this.apiPaths.carrito, require('../routes/carrito'));
     }
     sockets() {
         this.io.on('conecction', (socket) => (0, socket_controller_1.socketController)(socket));

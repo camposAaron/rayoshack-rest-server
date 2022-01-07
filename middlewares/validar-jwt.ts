@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 
-import  JWT, { Secret } from 'jsonwebtoken';
+import  JWT from 'jsonwebtoken';
 import { Usuario } from "../models";
 
 

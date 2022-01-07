@@ -3,7 +3,7 @@ import { Producto } from './producto';
 
 interface Carrito{
     usuario : Types.ObjectId;
-    cesta : Types.DocumentArray<any>;
+    cesta : Object;
     cantidad : Number;
     precio : Number;
     total : Number;
@@ -18,18 +18,20 @@ const CarritoSchema = new Schema<Carrito>({
         ref : 'Usuario',
         required : true
     },
-    cesta : [{
-      producto : {
-        type : Schema.Types.ObjectId,
-        ref : 'Producto',
-        required : true
-      },
-      cantidad : { type : Number, required: true, default : 1 },
-      precio : Number
-    }],
-    total : {
-        type : Number
-    },
+    cesta : {
+      detalle: {
+        producto : {
+            type : Schema.Types.ObjectId,
+            ref : 'Producto',
+            required : true
+          },
+          cantidad : { type : Number, required: true, default : 1 },
+          precio : Number,
+          subTotal :Number
+        },
+        total : { type : Number }
+     }
+  ,
     estado : {
         type : Boolean,
         default : true,
