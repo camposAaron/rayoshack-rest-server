@@ -25,19 +25,19 @@ const models_1 = require("../models");
 const putProductoCesta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { producto, cantidad } = req.body;
     const myProducto = yield models_1.Producto.findById({ _id: producto }).populate('promocion');
-    console.log(myProducto);
     const userId = req.uid;
     const myCarrito = yield models_1.Carrito.findOne({ usuario: userId });
     let precio = myProducto.precio;
     let total = myCarrito.total || 0;
     let subTotal;
+    let descuento;
     if (myProducto.promocion) {
-        const descuento = myProducto.promocion.descuento * precio;
+        descuento = myProducto.promocion.descuento * precio;
         precio = precio - descuento;
     }
     subTotal = precio * cantidad;
     total += subTotal;
-    const data = { producto: myProducto._id, cantidad, precio, subTotal };
+    const data = { producto, cantidad, descuento, precio, subTotal };
     const cesta = yield models_1.Carrito.findByIdAndUpdate({ _id: myCarrito._id }, {
         $push: { cesta: data },
         total
@@ -51,7 +51,7 @@ const getCarrito = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     const idUser = req.uid;
     const myCarrito = yield models_1.Carrito.findOne({ usuario: idUser })
         .populate('usuario', 'nombre')
-        .populate({ path: 'cesta[]', select: { producto: ['marca', 'precio'] } });
+        .populate({ path: 'cesta.producto', select: ['marca', 'modelo', 'portada', 'precio'] });
     res.json(myCarrito);
 });
 exports.getCarrito = getCarrito;
