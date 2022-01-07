@@ -20,5 +20,12 @@ router.get('/', [
     middlewares_1.validarRol.haveRole('USER_ROLE'),
     middlewares_1.validarCampos
 ], cesta_controller_1.getCarrito);
+router.delete('/', [
+    middlewares_1.validarJWT,
+    middlewares_1.validarRol.haveRole('USER_ROLE'),
+    (0, express_validator_1.check)('productoEnCesta', 'El producto es requerido').not().isEmpty(),
+    (0, express_validator_1.check)('productoEnCesta', 'debe ser un mongo id').isMongoId(),
+    middlewares_1.validarCampos
+], cesta_controller_1.deleteProductoCesta);
 exports.default = router;
 //# sourceMappingURL=carrito.js.map

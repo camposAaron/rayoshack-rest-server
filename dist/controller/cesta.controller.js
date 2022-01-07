@@ -20,7 +20,7 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCarrito = exports.putProductoCesta = void 0;
+exports.deleteProductoCesta = exports.getCarrito = exports.putProductoCesta = void 0;
 const models_1 = require("../models");
 const putProductoCesta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { producto, cantidad } = req.body;
@@ -55,9 +55,28 @@ const getCarrito = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     res.json(myCarrito);
 });
 exports.getCarrito = getCarrito;
-const deleteProductoCarrito = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.json({ msg: 'delete' });
+const deleteProductoCesta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { productoEnCesta } = req.body;
+    const userId = req.uid;
+    try {
+        const myCarrito = yield models_1.Carrito.findOneAndUpdate({ usuario: userId }, {
+            $pull: { cesta: { _id: productoEnCesta } }
+        });
+        const producto = myCarrito.cesta.id(productoEnCesta);
+        console.log(producto);
+        myCarrito.total -= producto.subTotal;
+        yield myCarrito.save();
+        res.json({
+            msg: `El producto ha sido eliminado de la cesta!`
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            msg: `El producto a borrar no existe`
+        });
+    }
 });
+exports.deleteProductoCesta = deleteProductoCesta;
 const updateDetalleCarrito = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = __rest(req.body, []);
     res.json({

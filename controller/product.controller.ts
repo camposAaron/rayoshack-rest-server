@@ -76,7 +76,6 @@ const updateProduct = async (req:any, res: Response) => {
 
     res.json(product);
 
-
 }
 
 export{

@@ -10,7 +10,7 @@ import {
 } from '../middlewares';
 
 import {
-    putProductoCesta,getCarrito
+    putProductoCesta,getCarrito, deleteProductoCesta,
 } from '../controller/cesta.controller';
 
 const router = Router();
@@ -33,5 +33,13 @@ router.get('/',[
     validarRol.haveRole('USER_ROLE'),
     validarCampos
 ], getCarrito)
+
+router.delete('/',[
+    validarJWT,
+    validarRol.haveRole('USER_ROLE'),
+    check('productoEnCesta','El producto es requerido').not().isEmpty(),
+    check('productoEnCesta','debe ser un mongo id').isMongoId(),
+    validarCampos
+], deleteProductoCesta);
 
 export default router;
