@@ -68,7 +68,7 @@ exports.existsPromocion = existsPromocion;
  * @param {la coleccion de la imagen } collection
  * @param {las colecciones permitidas} colecctions
  */
-const validateCollections = (collection = '', collections) => {
+const validateCollections = (collection, collections) => {
     const include = collections.includes(collection);
     if (!include) {
         throw new Error(`La coleccion ${collection} no es permitida`);

@@ -63,7 +63,6 @@ const deleteProductoCesta = (req, res) => __awaiter(void 0, void 0, void 0, func
             $pull: { cesta: { _id: productoEnCesta } }
         });
         const producto = myCarrito.cesta.id(productoEnCesta);
-        console.log(producto);
         myCarrito.total -= producto.subTotal;
         yield myCarrito.save();
         res.json({

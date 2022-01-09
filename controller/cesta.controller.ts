@@ -49,12 +49,10 @@ const deleteProductoCesta = async (req: any, res: Response) => {
     const userId = req.uid;
 
     try {
-
         const myCarrito = await Carrito.findOneAndUpdate({ usuario: userId }, {
             $pull: { cesta: { _id: productoEnCesta } }
         });
         const producto = myCarrito.cesta.id(productoEnCesta);
-        console.log(producto);
 
         myCarrito.total -= producto.subTotal;
         await myCarrito.save();

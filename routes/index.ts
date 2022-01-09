@@ -5,7 +5,7 @@ import userRouter from './usuario';
 import promocionRouter from './promocion';
 import productoRouter from './Producto';
 import carritoRouter from './carrito';
-
+import uploadRouter from './upload';
 export {
     authRouter,
     categoriaRouter,
@@ -13,5 +13,6 @@ export {
     userRouter,
     promocionRouter,
     productoRouter,
-carritoRouter
+    carritoRouter,
+    uploadRouter
 }
