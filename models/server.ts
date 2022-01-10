@@ -8,7 +8,7 @@ import {socketController} from '../sockets/socket.controller';
 import socketIO from 'socket.io';
 
 import { categoriaRouter, userRouter,
-     direccionRouter, authRouter, promocionRouter, productoRouter, carritoRouter } from '../routes';
+     direccionRouter, authRouter, promocionRouter, productoRouter, carritoRouter, uploadRouter } from '../routes';
 
 class myServer {
     private app: Application;
@@ -59,6 +59,7 @@ class myServer {
         this.app.use(express.json());
         //Servir carpeta pública
         this.app.use(express.static('public'));
+        this.app.use('/static',express.static('uploads'));
 
         //fileupload - carga de archivos
         this.app.use(fileUpload({
@@ -76,7 +77,7 @@ class myServer {
         this.app.use(this.apiPaths.promociones, promocionRouter)
         this.app.use(this.apiPaths.productos, productoRouter);
         this.app.use(this.apiPaths.carrito, carritoRouter);
-        this.app.use(this.apiPaths.uploads, require('../routes/upload'));
+        this.app.use(this.apiPaths.uploads, uploadRouter);
         // // this.app.use(this.path.find, require('../routes/find'));
         // this.app.use(this.apiPaths.inventario, require('../routes/inventario'));
     }

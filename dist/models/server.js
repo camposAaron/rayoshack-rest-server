@@ -58,6 +58,7 @@ class myServer {
         this.app.use(express_1.default.json());
         //Servir carpeta pública
         this.app.use(express_1.default.static('public'));
+        this.app.use('/static', express_1.default.static('uploads'));
         //fileupload - carga de archivos
         this.app.use((0, express_fileupload_1.default)({
             useTempFiles: true,
@@ -73,7 +74,7 @@ class myServer {
         this.app.use(this.apiPaths.promociones, routes_1.promocionRouter);
         this.app.use(this.apiPaths.productos, routes_1.productoRouter);
         this.app.use(this.apiPaths.carrito, routes_1.carritoRouter);
-        this.app.use(this.apiPaths.uploads, require('../routes/upload'));
+        this.app.use(this.apiPaths.uploads, routes_1.uploadRouter);
         // // this.app.use(this.path.find, require('../routes/find'));
         // this.app.use(this.apiPaths.inventario, require('../routes/inventario'));
     }

@@ -8,115 +8,105 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CloudinaryUpdateImg = exports.getImage = exports.updateImg = exports.uploadImg = void 0;
+exports.getImage = exports.updateImg = exports.uploadImg = void 0;
 const cloudinary = require('cloudinary').v2;
 cloudinary.config(process.env.CLOUDINARY_URL);
-const path = require('path');
-const fs = require('fs');
-const { uploadArchive } = require('../helpers');
-const { User, Product } = require('../models');
+const path_1 = __importDefault(require("path"));
+const fs_1 = __importDefault(require("fs"));
+const helpers_1 = require("../helpers");
+const models_1 = require("../models");
 //ruta para imagen no encontrada.
-const pathNotFoundImg = path.join(__dirname, '../assets/no-image.jpg');
+const pathNotFoundImg = path_1.default.join(__dirname, '../assets/no-image.jpg');
 const uploadImg = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { collection, id } = req.params;
+    let model;
+    switch (collection) {
+        case 'usuarios':
+            model = yield models_1.Usuario.findById(id);
+            if (!model) {
+                return res.status(400).json({
+                    msg: `El usuario con id : ${id} no existe`
+                });
+            }
+            break;
+        case 'productos':
+            model = yield models_1.Producto.findById(id);
+            if (!model) {
+                return res.status(400).json({
+                    msg: `El producto con id : ${id} no existe`
+                });
+            }
+            break;
+        default:
+            return res.status(500).json({
+                msg: `la coleccion ${collection} no esta definida`
+            });
+            break;
+    }
     try {
-        const name = yield uploadArchive(req.files);
-        // const name = await uploadArchive(req.files, ['md', 'txt'],'textos');
-        res.json({ name });
+        //TODO: Limpiar imagen previa
+        if (collection === 'productos') {
+            const imagenes = yield (0, helpers_1.uploadArchive)(req.files, ['jpg', 'png', 'jpeg'], `${model.marca}-${model.modelo}`, []);
+            // //la primera imagen del arreglo corresponde a la portada.
+            model.portada = imagenes.shift();
+            // //el resto de imagenes se asigna a la galeria.
+            model.galeria = imagenes;
+            yield model.save();
+            res.json({ imagenes });
+        }
+        ;
     }
     catch (err) {
-        res.status(400).json({ err });
+        res.status(400).json({ msg: err });
     }
 });
 exports.uploadImg = uploadImg;
-/*Carga los archivos al hosting cloudinary */
-const CloudinaryUpdateImg = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { collection, id } = req.params;
-    let model;
-    switch (collection) {
-        case 'users':
-            model = yield User.findById(id);
-            if (!model) {
-                return res.status(400).json({
-                    msg: `El usuario con id : ${id} no existe`
-                });
-            }
-            break;
-        case 'products':
-            model = yield Product.findById(id);
-            if (!model) {
-                return res.status(400).json({
-                    msg: `El producto con id : ${id} no existe`
-                });
-            }
-            break;
-        default:
-            return res.status(500).json({
-                msg: `la coleccion ${collection} no esta definida`
-            });
-            break;
-    }
-    try {
-        //Limpiar imagen previa
-        if (model.img) {
-            const imgSplited = model.img.split('/').pop();
-            const [public_id] = imgSplited.split('.');
-            yield cloudinary.uploader.destroy(`${collection}/${public_id}`);
-        }
-        const { tempFilePath } = req.files.archivo;
-        const { secure_url } = yield cloudinary.uploader.upload(tempFilePath, { folder: `${collection}` });
-        model.img = secure_url;
-        yield model.save();
-        res.json({ model });
-    }
-    catch (err) {
-        res.status(400).json({ err });
-    }
-});
-exports.CloudinaryUpdateImg = CloudinaryUpdateImg;
 /* Carga archivos al servidor */
 const updateImg = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { collection, id } = req.params;
-    let model;
-    switch (collection) {
-        case 'users':
-            model = yield User.findById(id);
-            if (!model) {
-                return res.status(400).json({
-                    msg: `El usuario con id : ${id} no existe`
-                });
-            }
-            break;
-        case 'products':
-            model = yield Product.findById(id);
-            if (!model) {
-                return res.status(400).json({
-                    msg: `El producto con id : ${id} no existe`
-                });
-            }
-            break;
-        default:
-            return res.status(500).json({
-                msg: `la coleccion ${collection} no esta definida`
-            });
-            break;
-    }
-    try {
-        //verificar si existe imagen previa
-        if (model.img) {
-            const pathComplete = path.join(__dirname, '../uploads', collection, model.img);
-            //verificar si la ruta existe para despues borrarla
-            if (fs.existsSync(pathComplete))
-                fs.unlinkSync(pathComplete);
-        }
-        const name = yield uploadArchive(req.files, undefined, collection);
-        model.img = name;
-        yield model.save();
-        res.json({ model });
-    }
-    catch (msg) {
-        res.status(400).json({ msg });
-    }
+    // const { collection, id } = req.params;
+    // let model;
+    // switch (collection) {
+    //     case 'users':
+    //         model = await Usuario.findById(id);
+    //         if (!model) {
+    //             return res.status(400).json({
+    //                 msg: `El usuario con id : ${id} no existe`
+    //             });
+    //         }
+    //         break;
+    //     case 'products':
+    //         model = await Producto.findById(id);
+    //         if (!model) {
+    //             return res.status(400).json({
+    //                 msg: `El producto con id : ${id} no existe`
+    //             });
+    //         }
+    //         break;
+    //     default:
+    //         return res.status(500).json({
+    //             msg: `la coleccion ${collection} no esta definida`
+    //         });
+    //         break;
+    // }
+    // try {
+    //     //verificar si existe imagen previa
+    //     if (model.img) {
+    //         const pathComplete = path.join(__dirname, '../uploads', collection, model.img);
+    //         //verificar si la ruta existe para despues borrarla
+    //         if (fs.existsSync(pathComplete))
+    //             fs.unlinkSync(pathComplete);
+    //     }
+    //     const name = await uploadArchive(req.files, undefined, collection);
+    //     model.img = name;
+    //     await model.save();
+    //     res.json({ model });
+    // } catch (msg) {
+    //     res.status(400).json({ msg });
+    // }
 });
 exports.updateImg = updateImg;
 const getImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -124,7 +114,7 @@ const getImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let model;
     switch (collection) {
         case 'users':
-            model = yield User.findById(id);
+            model = yield models_1.Usuario.findById(id);
             if (!model) {
                 res.status(400).json({
                     msg: `El usuario con id ${id} no existe`
@@ -132,7 +122,7 @@ const getImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             }
             break;
         case 'products':
-            model = yield Product.findById(id);
+            model = yield models_1.Producto.findById(id);
             if (!model) {
                 res.status(400).json({
                     msg: `El producto con id ${id} no existe`
@@ -145,8 +135,8 @@ const getImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             });
     }
     if (model.img) {
-        const pathImage = path.join(__dirname, '../uploads', collection, model.img);
-        if (fs.existsSync(pathImage))
+        const pathImage = path_1.default.join(__dirname, '../uploads', collection, model.img);
+        if (fs_1.default.existsSync(pathImage))
             res.sendFile(pathImage);
         else
             res.sendFile(pathNotFoundImg);

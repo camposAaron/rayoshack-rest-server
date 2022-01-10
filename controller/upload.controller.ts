@@ -1,40 +1,25 @@
 import { Response, response } from "express";
 
 const cloudinary = require('cloudinary').v2
-cloudinary.config( process.env.CLOUDINARY_URL);
+cloudinary.config(process.env.CLOUDINARY_URL);
 
-const path = require('path');
-const fs = require('fs');
-const { uploadArchive } = require('../helpers');
-const { User, Product } = require('../models');
+import path from 'path';
+import fs from 'fs';
+import { uploadArchive } from '../helpers';
+import { Usuario, Producto } from '../models';
 
 //ruta para imagen no encontrada.
 const pathNotFoundImg = path.join(__dirname, '../assets/no-image.jpg');
 
-const uploadImg = async(req:any, res: Response) => {
-
-    try {
-
-        const name = await uploadArchive(req.files);
-        // const name = await uploadArchive(req.files, ['md', 'txt'],'textos');
-        res.json({ name });
-
-    } catch (err) {
-
-        res.status(400).json({ err });
-    }
-}
-
-/*Carga los archivos al hosting cloudinary */
-const CloudinaryUpdateImg = async(req:any, res: Response) => {
+const uploadImg = async (req: any, res: Response) => {
 
     const { collection, id } = req.params;
 
     let model;
 
     switch (collection) {
-        case 'users':
-            model = await User.findById(id);
+        case 'usuarios':
+            model = await Usuario.findById(id);
             if (!model) {
                 return res.status(400).json({
                     msg: `El usuario con id : ${id} no existe`
@@ -43,8 +28,8 @@ const CloudinaryUpdateImg = async(req:any, res: Response) => {
 
             break;
 
-        case 'products':
-            model = await Product.findById(id);
+        case 'productos':
+            model = await Producto.findById(id);
             if (!model) {
                 return res.status(400).json({
                     msg: `El producto con id : ${id} no existe`
@@ -61,91 +46,88 @@ const CloudinaryUpdateImg = async(req:any, res: Response) => {
     }
 
     try {
-        //Limpiar imagen previa
-        if (model.img) {
-            const imgSplited = model.img.split('/').pop();
-            const [ public_id ] = imgSplited.split('.'); 
-            await cloudinary.uploader.destroy(`${collection}/${public_id}`);
-        }
-
-        const { tempFilePath } = req.files.archivo;
-        const { secure_url } =  await cloudinary.uploader.upload(tempFilePath, {folder : `${collection}`});
-              
-        model.img = secure_url;
-
-        await model.save();
-
-        res.json({ model });
-
+        //TODO: Limpiar imagen previa
+        if(collection === 'productos'){
+            const imagenes = await uploadArchive(req.files, ['jpg', 'png','jpeg'], `${model.marca}-${model.modelo}`, []);
+            // //la primera imagen del arreglo corresponde a la portada.
+            model.portada = imagenes.shift();
+            // //el resto de imagenes se asigna a la galeria.
+            model.galeria = imagenes;
+            await model.save();
+            res.json({imagenes});
+        };
     } catch (err) {
-        res.status(400).json({ err });
+
+        res.status(400).json({ msg : err });
     }
 }
+
+
 
 /* Carga archivos al servidor */
-const updateImg = async(req:any, res: Response) => {
+const updateImg = async (req: any, res: Response) => {
 
-    const { collection, id } = req.params;
+    // const { collection, id } = req.params;
 
-    let model;
+    // let model;
 
-    switch (collection) {
-        case 'users':
-            model = await User.findById(id);
-            if (!model) {
-                return res.status(400).json({
-                    msg: `El usuario con id : ${id} no existe`
-                });
-            }
+    // switch (collection) {
+    //     case 'users':
+    //         model = await Usuario.findById(id);
+    //         if (!model) {
+    //             return res.status(400).json({
+    //                 msg: `El usuario con id : ${id} no existe`
+    //             });
+    //         }
 
-            break;
+    //         break;
 
-        case 'products':
-            model = await Product.findById(id);
-            if (!model) {
-                return res.status(400).json({
-                    msg: `El producto con id : ${id} no existe`
-                });
-            }
+    //     case 'products':
+    //         model = await Producto.findById(id);
+    //         if (!model) {
+    //             return res.status(400).json({
+    //                 msg: `El producto con id : ${id} no existe`
+    //             });
+    //         }
 
-            break;
+    //         break;
 
-        default:
-            return res.status(500).json({
-                msg: `la coleccion ${collection} no esta definida`
-            });
-            break;
-    }
+    //     default:
+    //         return res.status(500).json({
+    //             msg: `la coleccion ${collection} no esta definida`
+    //         });
+    //         break;
+    // }
 
-    try {
-        //verificar si existe imagen previa
-        if (model.img) {
-            const pathComplete = path.join(__dirname, '../uploads', collection, model.img);
-            //verificar si la ruta existe para despues borrarla
-            if (fs.existsSync(pathComplete))
-                fs.unlinkSync(pathComplete);
-        }
+    // try {
+    //     //verificar si existe imagen previa
+    //     if (model.img) {
+    //         const pathComplete = path.join(__dirname, '../uploads', collection, model.img);
+    //         //verificar si la ruta existe para despues borrarla
+    //         if (fs.existsSync(pathComplete))
+    //             fs.unlinkSync(pathComplete);
+    //     }
 
-        const name = await uploadArchive(req.files, undefined, collection);
-        model.img = name;
+    //     const name = await uploadArchive(req.files, undefined, collection);
+    //     model.img = name;
 
-        await model.save();
+    //     await model.save();
 
-        res.json({ model });
+    //     res.json({ model });
 
-    } catch (msg) {
-        res.status(400).json({ msg });
-    }
+    // } catch (msg) {
+    //     res.status(400).json({ msg });
+    // }
 }
 
-const getImage = async(req:any, res: Response) => {
+const getImage = async (req: any, res: Response) => {
     const { collection, id } = req.params;
 
     let model;
 
     switch (collection) {
         case 'users':
-            model = await User.findById(id);
+            model = await Usuario.findById(id);
             if (!model) {
                 res.status(400).json({
                     msg: `El usuario con id ${id} no existe`
@@ -154,7 +136,7 @@ const getImage = async(req:any, res: Response) => {
             break;
 
         case 'products':
-            model = await Product.findById(id);
+            model = await Producto.findById(id);
             if (!model) {
                 res.status(400).json({
                     msg: `El producto con id ${id} no existe`
@@ -171,11 +153,11 @@ const getImage = async(req:any, res: Response) => {
 
     if (model.img) {
         const pathImage = path.join(__dirname, '../uploads', collection, model.img);
-        if (fs.existsSync(pathImage)) 
+        if (fs.existsSync(pathImage))
             res.sendFile(pathImage);
-        else    
+        else
             res.sendFile(pathNotFoundImg);
-        
+
     } else {
         res.sendFile(pathNotFoundImg);
     }
@@ -184,6 +166,5 @@ const getImage = async(req:any, res: Response) => {
 export {
     uploadImg,
     updateImg,
-    getImage,
-    CloudinaryUpdateImg
+    getImage
 }
