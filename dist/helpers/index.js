@@ -22,13 +22,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadArchive = exports.googleVerify = exports.generateJWT = exports.dbValidator = void 0;
+exports.archiveOp = exports.googleVerify = exports.generateJWT = exports.dbValidator = void 0;
 const dbValidator = __importStar(require("./db-validator"));
 exports.dbValidator = dbValidator;
 const generate_jwt_1 = __importDefault(require("./generate-jwt"));
 exports.generateJWT = generate_jwt_1.default;
 const googe_verify_1 = __importDefault(require("../helpers/googe-verify"));
 exports.googleVerify = googe_verify_1.default;
-const upload_archive_1 = __importDefault(require("../helpers/upload-archive"));
-exports.uploadArchive = upload_archive_1.default;
+const archiveOp = __importStar(require("../helpers/upload-archive"));
+exports.archiveOp = archiveOp;
 //# sourceMappingURL=index.js.map

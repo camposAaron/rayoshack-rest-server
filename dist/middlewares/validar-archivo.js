@@ -6,6 +6,10 @@ const validarCargaArchivo = (req, res, next) => {
             msg: 'No hay archivo a subir --sube al menos un archivo'
         });
     }
+    //verficar que archivos es un arreglo
+    if (!Array.isArray(req.files.archivos)) {
+        req.files.archivos = [req.files.archivos];
+    }
     next();
 };
 exports.default = validarCargaArchivo;
