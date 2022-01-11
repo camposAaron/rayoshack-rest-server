@@ -1,17 +1,17 @@
-const {response} = require('express');
-const { ObjectId} = require('mongoose').Types;
-const {User, Product, Category }  = require('../models/index');
+import { Request, Response } from 'express';
+import { Types } from 'mongoose';
+import {Usuario, Producto, Categoria }  from '../models';
 
 
-const myCollections = ['users','rols','products','categories']
+const myCollections = ['usuarios','productos','categorias']
 
-const findUsers = async( term , res ) => {
+const findUsers = async( term:any , res:Response) => {
     
-    const isMongoID = ObjectId.isValid(term); //true
+    const isMongoID = Types.ObjectId.isValid(term); //true
     
     //verificar si el termino es un id de mongo
     if(isMongoID){
-        const user = await User.findById(term);
+        const user = await Usuario.findById(term);
         return res.json({
             results :  [ (user) ? (user) : [] ]
         });
@@ -20,7 +20,7 @@ const findUsers = async( term , res ) => {
     //hacer el termino insensible a mayusculas.
     const regex =  new RegExp(term, 'i');
 
-    const users = await User.find({
+    const users = await Usuario.find({
         $or : [{name : regex}, {email : regex}],
         $and : [{state : true}]
     });
@@ -28,30 +28,29 @@ const findUsers = async( term , res ) => {
     res.json({
         results : users
     });
-
 }
 
-const findCategories = async(term, res) => {
-    const isMongoID = ObjectId.isValid(term);
+const findCategories = async(term:any, res:Response) => {
+    const isMongoID = Types.ObjectId.isValid(term);
     if(isMongoID){
-        const category = await Category.findById(term).populate('user', 'name');
+        const category = await Categoria.findById(term).populate('user', 'name');
         return res.json({
             results : [ (category) ? (category) : [] ]
         }); 
     }
 
     const regex = new RegExp(term, 'i');
-    const categories = await Category.find({name : regex , state : true}).populate('user', 'name');
+    const categories = await Categoria.find({name : regex , state : true}).populate('user', 'name');
     res.json({
         results : categories
     });
 }
 
-const findProducts = async(term, res) => {
-    const isMongoID = ObjectId.isValid(term);
+const findProducts = async(term:any, res:Response) => {
+    const isMongoID = Types.ObjectId.isValid(term);
     
     if(isMongoID){
-        const product = await Product.findById(term)
+        const product = await Producto.findById(term)
         .populate('user','name').populate('category', 'name');
         return res.json({
             results : [ (product) ? (product) : [] ]
@@ -60,15 +59,20 @@ const findProducts = async(term, res) => {
 
     const regex = new RegExp(term, 'i');
 
-    const products =  await Product.find({ name : regex, state : true})
-    .populate('user','name').populate('category', 'name');
+    const products =  await Producto.find({
+            $or : [{ marca : regex}, {modelo: regex}],
+            $and : [{estado :  true}, {stock : true}]
+    })
+    .populate('categoria',[' _id','nombre'], { estado : true})
+    .populate('promocion',['_id','titulo','descuento'],{estado : true})
+    .populate({ path: 'comentarios', select: 'comentario'})
 
     res.json({
         results : products
     }); 
 }
 
-const finder = (req, res = response) => {
+const finder = (req:Request, res: Response) => {
     const { collection, term } = req.params;
     
     if(!myCollections.includes(collection)){
@@ -76,13 +80,13 @@ const finder = (req, res = response) => {
     }
 
    switch(collection){
-    case 'users':
+    case 'usuarios':
         findUsers(term, res);   
         break;        
-    case 'products':
+    case 'productos':
         findProducts(term, res);
         break;
-    case 'categories':
+    case 'categorias':
         findCategories(term, res);
         break;
     default :
@@ -91,6 +95,4 @@ const finder = (req, res = response) => {
     }
 }
 
-module.exports = {
-    finder
-}
+export default finder;

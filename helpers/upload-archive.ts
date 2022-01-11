@@ -2,13 +2,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 import path from 'path';
 import fs from 'fs';
-import { Usuario } from '../models/usuario';
-import { Producto } from '../models/producto';
+
 
 const uploadArchive = (files: any, validExtensions: Array<string>, folder: string, imagenes: string[]) => {
   return new Promise<string[]>((resolve, reject) => {
     const { archivos } = files;
-
+   
     for (let archivo of archivos) {
     
       /*Validar extension */
@@ -50,7 +49,7 @@ const deleteArchives = (folderName: string) => {
 
     const unlinkPromises = files.map(file => {
       const filePath = path.join(carpetaRemover, file);
-      return fs.unlink(filePath, (err) => { console.log(err) });
+      return fs.unlink(filePath, (err) => {  });
     });
 
     if (err) {
