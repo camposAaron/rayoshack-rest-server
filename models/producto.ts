@@ -3,6 +3,7 @@ import {Comentario} from './Comentario';
 
 
 export interface Producto {
+    nombre: String;
     marca : String;
     modelo: String;
     precio: Number;
@@ -19,6 +20,7 @@ export interface Producto {
 }
 
 const ProductSchema = new Schema<Producto>({
+    nombre : { type: String, required: true},
     marca: { type: String, required: true },
     modelo: {
         type: String,

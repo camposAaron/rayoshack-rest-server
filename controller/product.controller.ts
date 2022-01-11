@@ -4,7 +4,7 @@ import { Producto } from '../models/index';
 
 const createProduct = async (req:any, res: Response) => {
 
-    const { modelo, ...restFields } = req.body;
+    const { modelo, marca,  ...restFields } = req.body;
 
     const productoName = await Producto.findOne({ modelo });
 
@@ -13,8 +13,9 @@ const createProduct = async (req:any, res: Response) => {
             msg: `El producto con modelo:${productoName.modelo}, ya esta registrado!`
         });
     }
-
+    restFields.nombre = marca+' '+modelo;
     restFields.modelo = modelo;
+    restFields.marca = marca;
 
     const product = new Producto(restFields);
 
@@ -75,7 +76,6 @@ const updateProduct = async (req:any, res: Response) => {
     const product =  await Producto.findByIdAndUpdate(id, rest, { new: true });
 
     res.json(product);
-
 
 }
 

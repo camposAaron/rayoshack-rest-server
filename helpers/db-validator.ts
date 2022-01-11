@@ -61,15 +61,13 @@ export const existsPromocion = async (id: String) => {
     }
 }
 
-
-
-
 /**
  * validar colecciones
  * @param {la coleccion de la imagen } collection
  * @param {las colecciones permitidas} colecctions
  */
-export const validateCollections = (collection = '', collections: [String]) => {
+
+export const validateCollections = (collection: string, collections: Array<string>) => {
 
     const include = collections.includes(collection);
     if (!include) {

@@ -5,13 +5,17 @@ import userRouter from './usuario';
 import promocionRouter from './promocion';
 import productoRouter from './Producto';
 import carritoRouter from './carrito';
+import uploadRouter from './upload';
+import finderRouter from './find';
 
 export {
     authRouter,
     categoriaRouter,
+    carritoRouter,
     direccionRouter,
-    userRouter,
-    promocionRouter,
+    finderRouter,
     productoRouter,
-carritoRouter
+    promocionRouter,
+    userRouter,
+    uploadRouter,
 }
