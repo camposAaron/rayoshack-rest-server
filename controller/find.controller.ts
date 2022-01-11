@@ -60,7 +60,7 @@ const findProducts = async(term:any, res:Response) => {
     const regex = new RegExp(term, 'i');
 
     const products =  await Producto.find({
-            $or : [{ marca : regex}, {modelo: regex}],
+            $or : [{ nombre : regex}],
             $and : [{estado :  true}, {stock : true}]
     })
     .populate('categoria',[' _id','nombre'], { estado : true})
