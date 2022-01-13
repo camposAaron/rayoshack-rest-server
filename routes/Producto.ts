@@ -29,6 +29,7 @@ router.post('/', [
     check('categoria').custom(dbValidator.existsCategoryId),
     check('promocion','debe ser un mongo id').isMongoId().optional(),
     check('promocion').custom(dbValidator.existsPromocion).optional(),
+    check('descuento','El descuento debe ser numerico').isNumeric().optional(),
     check('stock','debe ser de tipo BOOLEAN').isBoolean().optional(),  
     validarCampos
 ], createProduct); 
@@ -65,6 +66,7 @@ router.put('/:id',[
     check('categoria').custom(dbValidator.existsCategoryId).optional(),
     check('promocion','debe ser un mongo id').isMongoId().optional(),
     check('promocion').custom(dbValidator.existsPromocion).optional(),
+    check('descuento','El descuento debe ser numerico').isNumeric().optional(),
     check('stock','debe ser de tipo BOOLEAN').isBoolean().optional(),  
     validarCampos
 ],updateProduct);

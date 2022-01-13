@@ -12,7 +12,7 @@ const createPromotion = async(req:any, res:Response) => {
 const getPromotions = async(req:any, res:Response) => {
 
     const { limite = 5, desde } = req.query;
-    const query = { estado : true };
+const query = { estado : true };
     const [total, promociones] = await Promise.all([
         Promocion.countDocuments(query),
         Promocion.find(query)

@@ -1,10 +1,10 @@
 import { Schema, model, Types } from 'mongoose';
-import {Comentario} from './Comentario';
+import { Comentario } from './Comentario';
 
 
 export interface Producto {
     nombre: String;
-    marca : String;
+    marca: String;
     modelo: String;
     precio: Number;
     galeria: Types.Array<String>;
@@ -20,7 +20,7 @@ export interface Producto {
 }
 
 const ProductSchema = new Schema<Producto>({
-    nombre : { type: String, required: true},
+    nombre: { type: String, required: true },
     marca: { type: String, required: true },
     modelo: {
         type: String,
@@ -30,8 +30,9 @@ const ProductSchema = new Schema<Producto>({
     precio: { type: Number, default: 0 },
     galeria: { type: [String] },
     portada: { type: String },
-    descripcion: { type : String},
+    descripcion: { type: String },
     detalles: { type: String },
+    descuento: { type: Number },
     categoria: {
         type: Schema.Types.ObjectId,
         ref: 'Categoria',
@@ -43,11 +44,11 @@ const ProductSchema = new Schema<Producto>({
         ref: 'Promocion',
         required: false
     },
-    comentarios : [{
-        type : Types.ObjectId,
-        ref : 'Comentario'
+    comentarios: [{
+        type: Types.ObjectId,
+        ref: 'Comentario'
     }],
-    calificacion : { Type: String},
+    calificacion: { Type: Number },
     estado: {
         type: Boolean,
         required: true,

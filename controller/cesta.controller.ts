@@ -13,8 +13,8 @@ const putProductoCesta = async (req: any, res: Response) => {
     let subTotal;
     let descuento
 
-    if (myProducto.promocion) {
-        descuento = myProducto.promocion.descuento * precio;
+    if (myProducto.descuento) {
+        descuento = myProducto.descuento * precio;
         precio = precio - descuento;
     }
 
@@ -65,13 +65,6 @@ const deleteProductoCesta = async (req: any, res: Response) => {
             msg: `El producto a borrar no existe`
         });
     }
-}
-
-const updateDetalleCarrito = async (req: any, res: Response) => {
-    const { ...data } = req.body;
-    res.json({
-        data
-    });
 }
 
 export {

@@ -20,7 +20,6 @@ const PromocionSchema = new Schema<IPromocion>({
         required: true
     },
     banner: String,
-    descuento: Number,
     fechaInicio: {
         type: Date,
         required: true,

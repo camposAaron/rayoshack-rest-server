@@ -57,7 +57,6 @@ class myServer {
         await dbConnection();
     }
 
-
     jobs(){
         promotionSchedule.start();
     }

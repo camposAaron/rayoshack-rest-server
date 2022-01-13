@@ -73,6 +73,7 @@ const updateProduct = async (req:any, res: Response) => {
     const { id } = req.params;
     const { _id, estado, ...rest } = req.body;
     
+    
     const product =  await Producto.findByIdAndUpdate(id, rest, { new: true });
 
     res.json(product);
