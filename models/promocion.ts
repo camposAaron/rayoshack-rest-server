@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-interface Promocion {
+export interface IPromocion {
     titulo : String;
     descripcion: String;
     banner: String;
@@ -10,7 +10,7 @@ interface Promocion {
     estado: Boolean;
 }
 
-const PromocionSchema = new Schema<Promocion>({
+const PromocionSchema = new Schema<IPromocion>({
     titulo: {
         type: String,
         required: true,

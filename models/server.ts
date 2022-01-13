@@ -7,6 +7,8 @@ import http, { Server } from 'http';
 import {socketController} from '../sockets/socket.controller';
 import socketIO from 'socket.io';
 
+import {promotionSchedule} from '../jobs/verifyPromotions';
+
 import { categoriaRouter, userRouter,
      direccionRouter, authRouter, promocionRouter,
     productoRouter, carritoRouter, uploadRouter, finderRouter } from '../routes';
@@ -46,10 +48,18 @@ class myServer {
 
         //eventos de socket
         this.sockets();
+
+        //schedules jobs 
+        this.jobs();
     }
 
     async connectDB() {
         await dbConnection();
+    }
+
+
+    jobs(){
+        promotionSchedule.start();
     }
 
     middlewares() {
