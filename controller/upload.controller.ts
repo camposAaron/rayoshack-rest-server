@@ -47,9 +47,10 @@ const uploadImg = async (req: any, res: Response) => {
 
         if(collection === 'productos'){
             //borra archivos si los hay;
-            archiveOp.deleteArchives(`${model.marca}-${model.modelo}`);
+            console.log(`${model.nombre}`);
+            archiveOp.deleteArchives(`${model.nombre}`);
            //subir archivos al servidor
-            const imagenes = await archiveOp.uploadArchive(req.files, ['jpg', 'png','jpeg'], `${model.marca}-${model.modelo}`, []);
+            const imagenes = await archiveOp.uploadArchive(req.files, ['jpg', 'png','jpeg'], `${model.nombre}`, []);
 
             if(imagenes.length > 1){
                 // //la primera imagen del arreglo corresponde a la portada.
@@ -66,7 +67,7 @@ const uploadImg = async (req: any, res: Response) => {
                 model.portada = imagenes.pop();
                 await model.save();
                 res.json({
-                    msg : `Imagen subida al servidor`
+                    msg : `Imagen subida al servidor ${model.nombre}`
                 });
             }
         }

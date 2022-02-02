@@ -1,10 +1,10 @@
 import {Schema, model } from 'mongoose';
 
 interface Direccion{
-    departamento: String;
-    direccion: String;
-    telefono: String;
-    estado: String;
+    departamento: string;
+    direccion: string;
+    telefono: string;
+    estado: string;
 }
 
 const DireccionSchema = new Schema<Direccion>({
