@@ -15,7 +15,6 @@ const validarFecha = (req: Request, res:Response, next:any) => {
     fecha1.setDate(fecha1.getDate() + 1);
     fecha2.setDate(fecha2.getDate() + 1);
 
-    console.log(fecha1, fecha2, fechaActual);
     console.log('\n:', fecha1.toLocaleDateString(), fecha2.toLocaleDateString(), fechaActual.toLocaleDateString());
 
     if (fecha1.toLocaleDateString() >= fecha2.toLocaleDateString()) {

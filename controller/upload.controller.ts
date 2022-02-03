@@ -47,7 +47,6 @@ const uploadImg = async (req: any, res: Response) => {
 
         if(collection === 'productos'){
             //borra archivos si los hay;
-            console.log(`${model.nombre}`);
             archiveOp.deleteArchives(`${model.nombre}`);
            //subir archivos al servidor
             const imagenes = await archiveOp.uploadArchive(req.files, ['jpg', 'png','jpeg'], `${model.nombre}`, []);

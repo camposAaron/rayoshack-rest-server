@@ -15,7 +15,6 @@ const uploadArchive = (files: any, validExtensions: Array<string>, folder: strin
       const extension = nameSplit[nameSplit.length - 1];
 
 
-
       if (!validExtensions.includes(extension)) {
         reject(`La extension '${extension}' no es permitida, ${validExtensions}`);
       }

@@ -4,7 +4,8 @@ import { check  } from 'express-validator';
 import {
     validarCampos,
     validarJWT,
-    validarRol
+    validarRol,
+    generarInventario
 } from '../middlewares';
 
 import {
@@ -30,7 +31,10 @@ router.post('/', [
     check('promocion','debe ser un mongo id').isMongoId().optional(),
     check('promocion').custom(dbValidator.existsPromocion).optional(),
     check('descuento','El descuento debe ser numerico').isNumeric().optional(),
-    check('stock','debe ser de tipo BOOLEAN').isBoolean().optional(),  
+    check('stock','debe ser de tipo BOOLEAN').isBoolean().optional(),
+    check('cantidad','la cantidad debe ser un valor numerico').isNumeric(),
+    check('cantidad','la cantidad es requerida').not().isEmpty(),
+    generarInventario,
     validarCampos
 ], createProduct); 
  
