@@ -11,7 +11,7 @@ import {promotionSchedule} from '../jobs/verifyPromotions';
 
 import { categoriaRouter, userRouter,
      direccionRouter, authRouter, promocionRouter,
-    productoRouter, carritoRouter, uploadRouter, finderRouter } from '../routes';
+    productoRouter, carritoRouter, uploadRouter, finderRouter, inventoryRouter } from '../routes';
 
 class myServer {
     private app: Application;
@@ -28,7 +28,8 @@ class myServer {
         promociones:'/api/promocion',
         productos: '/api/producto',
         users: '/api/usuario',
-        uploads :    '/api/upload'
+        uploads :    '/api/upload',
+        inventory: '/api/inventory'
     };
 
     constructor() {
@@ -89,6 +90,7 @@ class myServer {
         this.app.use(this.apiPaths.carrito, carritoRouter);
         this.app.use(this.apiPaths.uploads, uploadRouter);
         this.app.use(this.apiPaths.buscar, finderRouter);
+        this.app.use(this.apiPaths.inventory, inventoryRouter)
         // this.app.use(this.apiPaths.inventario, require('../routes/inventario'));
     }
 

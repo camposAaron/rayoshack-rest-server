@@ -23,16 +23,10 @@ const createProduct = async (req: any, res: Response) => {
 
     await product.save();
 
-    enum movimiento {
-        'entrada',
-        'salida'
-    }
-
-    //crear el arreglo de transacciones
+    //crear el arreglo de transacciones con transaccion inicial
     const transacciones = [{
         fecha: new Date(),
-        tipo: movimiento.entrada,
-        cantidad
+        tipo: 'entrada'
     }];
 
     //generar el inventario

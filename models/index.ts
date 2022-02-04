@@ -7,6 +7,8 @@ import Direccion  from './direccion';
 import Carrito    from './carrito';
 import Promocion  from './promocion';
 import Comentario from './Comentario';
+import Inventario from './inventario';
+
 
 
 export {
@@ -18,7 +20,8 @@ export {
     Carrito,
     Promocion,
     Comentario,
-    Categoria
+    Categoria,
+    Inventario
 }
 
 

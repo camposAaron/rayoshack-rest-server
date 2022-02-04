@@ -4,7 +4,6 @@ import * as validarRol from './validar-rol';
 import validarCargaArchivo from './validar-archivo';
 import validarFecha from './validar-fecha';
 import generarCesta from './generarCesta';
-import generarInventario from './generarInventario';
 
 export {
     validarCampos,
@@ -12,6 +11,5 @@ export {
     validarRol,
     validarJWT,
     validarFecha,
-    generarCesta,
-    generarInventario
+    generarCesta
 }

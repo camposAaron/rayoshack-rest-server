@@ -4,8 +4,7 @@ import { check  } from 'express-validator';
 import {
     validarCampos,
     validarJWT,
-    validarRol,
-    generarInventario
+    validarRol
 } from '../middlewares';
 
 import {
@@ -34,7 +33,6 @@ router.post('/', [
     check('stock','debe ser de tipo BOOLEAN').isBoolean().optional(),
     check('cantidad','la cantidad debe ser un valor numerico').isNumeric(),
     check('cantidad','la cantidad es requerida').not().isEmpty(),
-    generarInventario,
     validarCampos
 ], createProduct); 
  

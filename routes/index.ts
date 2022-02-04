@@ -7,6 +7,7 @@ import productoRouter from './Producto';
 import carritoRouter from './carrito';
 import uploadRouter from './upload';
 import finderRouter from './find';
+import inventoryRouter from './inventario'
 
 export {
     authRouter,
@@ -18,4 +19,5 @@ export {
     promocionRouter,
     userRouter,
     uploadRouter,
+    inventoryRouter
 }
